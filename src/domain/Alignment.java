@@ -2,8 +2,10 @@ package domain;
 
 import java.util.ArrayList;
 
+// Represents the alignment with a list of genome sequences
 public abstract class Alignment {
 
+    // The list of genomes represented in this alignment
     private final ArrayList<Genome> sequences = new ArrayList<>();
 
     /**
@@ -85,4 +87,11 @@ public abstract class Alignment {
     public ArrayList<Genome> getSequences() {
         return sequences;
     }
+
+    /**
+     * Gives the representation of the alignment
+     *
+     * @return the representation of the alignment in String format
+     */
+    public abstract String getRepresentation();
 }

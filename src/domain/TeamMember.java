@@ -1,9 +1,14 @@
 package domain;
 
+// Represents a member of the team, found in the team.txt file
 public class TeamMember {
+    // Specifies the role within the team
     private TeamRole role;
+    // Represents the first name
     private String firstName;
+    // Represents the last name
     private String lastName;
+    // Indicates how long the team member is part of the team
     private int yearsOfExperience;
 
     public TeamMember(TeamRole role, String firstName, String lastName, int yearsOfExperience) {
