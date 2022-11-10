@@ -19,4 +19,22 @@ public class TeamLeader extends TeamMember {
     public void writeReportToFile() {
         throw new UnsupportedOperationException();
     }
+
+    /**
+     * Writes the alignment to the optimal alignment in the AlignmentRepository
+     *
+     * @param alignment the alignment to become the optimal alignment
+     */
+    public void copyAlignmentToOptimalAlignment(Alignment alignment) {
+        throw new UnsupportedOperationException();
+    }
+
+    /**
+     * Overwrites a user's alignment with the optimal alignment
+     *
+     * @param user the user for which the alignment needs to be overwritten
+     */
+    public void overwriteAlignment(BioInformatician user) {
+        throw new UnsupportedOperationException();
+    }
 }

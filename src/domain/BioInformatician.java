@@ -2,8 +2,11 @@ package domain;
 
 public class BioInformatician extends TeamMember {
 
-    public BioInformatician(String firstName, String lastName, int yearsOfExperience) {
+    private Alignment personalAlignment;
+
+    public BioInformatician(String firstName, String lastName, int yearsOfExperience, Alignment personalAlignment) {
         super(firstName, lastName, yearsOfExperience);
+        setPersonalAlignment(personalAlignment);
     }
 
     /**
@@ -14,9 +17,17 @@ public class BioInformatician extends TeamMember {
     }
 
     /**
-     * Writes the different scores of the personal alignment to an output file
+     * Writes the difference score of the personal alignment to an output file
      */
     public void writeReportToFile() {
         throw new UnsupportedOperationException();
+    }
+
+    public Alignment getPersonalAlignment() {
+        return personalAlignment;
+    }
+
+    public void setPersonalAlignment(Alignment personalAlignment) {
+        this.personalAlignment = personalAlignment;
     }
 }
