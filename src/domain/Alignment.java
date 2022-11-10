@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 // Represents the alignment with a list of genome sequences
 public abstract class Alignment {
+    // TODO: complete file
 
     // The list of genomes represented in this alignment
     private final ArrayList<Genome> sequences = new ArrayList<>();
@@ -94,4 +95,6 @@ public abstract class Alignment {
      * @return the representation of the alignment in String format
      */
     public abstract String getRepresentation();
+
+    public abstract int calculateScore();
 }

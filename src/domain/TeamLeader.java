@@ -1,9 +1,33 @@
 package domain;
 
+import java.util.ArrayList;
+
 public class TeamLeader extends TeamMember {
+    // TODO: complete file
+
+    private final ArrayList<BioInformatician> team;
 
     public TeamLeader(String firstName, String lastName, int yearsOfExperience) {
         super(firstName, lastName, yearsOfExperience);
+        team = new ArrayList<>();
+    }
+
+    /**
+     * Adds a bioinformatician to the team
+     *
+     * @param member a bioinformatician
+     */
+    public void addTeamMember(BioInformatician member) {
+        team.add(member);
+    }
+
+    /**
+     * Removes a bioinformatician from the team
+     *
+     * @param member a bioinformatician
+     */
+    public void removeMemberFromTeam(BioInformatician member) {
+        team.remove(member);
     }
 
     /**
@@ -36,5 +60,15 @@ public class TeamLeader extends TeamMember {
      */
     public void overwriteAlignment(BioInformatician user) {
         throw new UnsupportedOperationException();
+    }
+
+    /**
+     * A pleasing String representation of the class TeamLeader
+     *
+     * @return the String representation of TeamLeader
+     */
+    @Override
+    public String toString() {
+        return "Team leader " + super.toString();
     }
 }

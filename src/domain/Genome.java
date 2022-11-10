@@ -2,6 +2,7 @@ package domain;
 
 // Represents one entity inside the fasta file (2 lines)
 public class Genome {
+    // TODO: complete file
 
     // The identifier of each genome
     private String identifier;

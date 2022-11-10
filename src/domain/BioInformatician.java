@@ -1,6 +1,7 @@
 package domain;
 
 public class BioInformatician extends TeamMember {
+    // TODO: complete file
 
     private Alignment personalAlignment;
 
@@ -29,5 +30,15 @@ public class BioInformatician extends TeamMember {
 
     public void setPersonalAlignment(Alignment personalAlignment) {
         this.personalAlignment = personalAlignment;
+    }
+
+    /**
+     * A pleasing String representation of the class BioInformatician
+     *
+     * @return the String representation of BioInformatician
+     */
+    @Override
+    public String toString() {
+        return "Bio-Informatician " + super.toString();
     }
 }

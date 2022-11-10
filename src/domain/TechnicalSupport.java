@@ -3,6 +3,7 @@ package domain;
 import java.time.LocalDateTime;
 
 public class TechnicalSupport extends TeamMember {
+    // TODO: complete file
 
     private LocalDateTime lastBackup;
 
@@ -29,5 +30,15 @@ public class TechnicalSupport extends TeamMember {
      */
     public void clearRepository() {
         throw new UnsupportedOperationException();
+    }
+
+    /**
+     * A pleasing String representation of the class TechnicalSupport
+     *
+     * @return the String representation of TechnicalSupport
+     */
+    @Override
+    public String toString() {
+        return "Technical support " + super.toString();
     }
 }
