@@ -51,7 +51,7 @@ public class StartUp {
                 String[] lineComponents = line.split(" ");
                 switch (lineComponents[0]) {
                     case "TeamLead":
-                        teamLeader = new TeamLeader(lineComponents[1], lineComponents[2], Integer.parseInt(lineComponents[3]));
+                        teamLeader = new TeamLeader(lineComponents[1], lineComponents[2], Integer.parseInt(lineComponents[3]), alignmentRepository);
                         break;
                     case "BioInformatician":
                         //TODO: replace personal alignment with made alignment

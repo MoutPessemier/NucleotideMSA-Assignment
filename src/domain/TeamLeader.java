@@ -1,14 +1,16 @@
 package domain;
 
+import repositories.AlignmentRepository;
+
 import java.util.ArrayList;
 
 public class TeamLeader extends TeamMember {
-    // TODO: complete file
-
     private final ArrayList<BioInformatician> team;
+    private AlignmentRepository alignmentRepository;
 
-    public TeamLeader(String firstName, String lastName, int yearsOfExperience) {
+    public TeamLeader(String firstName, String lastName, int yearsOfExperience, AlignmentRepository alignmentRepository) {
         super(firstName, lastName, yearsOfExperience);
+        setAlignmentRepository(alignmentRepository);
         team = new ArrayList<>();
     }
 
@@ -34,14 +36,14 @@ public class TeamLeader extends TeamMember {
      * Writes all personal alignments to an output file
      */
     public void writeDataToFile() {
-        throw new UnsupportedOperationException();
+        team.forEach(BioInformatician::writeDataToFile);
     }
 
     /**
      * Writes all of the user's alignments scores to an output file
      */
     public void writeReportToFile() {
-        throw new UnsupportedOperationException();
+        team.forEach(BioInformatician::writeReportToFile);
     }
 
     /**
@@ -50,7 +52,8 @@ public class TeamLeader extends TeamMember {
      * @param alignment the alignment to become the optimal alignment
      */
     public void copyAlignmentToOptimalAlignment(Alignment alignment) {
-        throw new UnsupportedOperationException();
+        alignmentRepository.setOptimalSNPAlignment(new SNPAlignment(alignment.getSequences()));
+        alignmentRepository.setOptimalStandardAlignment(new StandardAlignment(alignment.getSequences()));
     }
 
     /**
@@ -59,7 +62,17 @@ public class TeamLeader extends TeamMember {
      * @param user the user for which the alignment needs to be overwritten
      */
     public void overwriteAlignment(BioInformatician user) {
-        throw new UnsupportedOperationException();
+        StandardAlignment alignment = new StandardAlignment(alignmentRepository.getOptimalStandardAlignment().getSequences());
+        user.setPersonalAlignment(alignment);
+    }
+
+    /**
+     * Sets the AlignmentRepository for a TeamLeader
+     *
+     * @param alignmentRepository the alignment repository
+     */
+    public void setAlignmentRepository(AlignmentRepository alignmentRepository) {
+        this.alignmentRepository = alignmentRepository;
     }
 
     /**

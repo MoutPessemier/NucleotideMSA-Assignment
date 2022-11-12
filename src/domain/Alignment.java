@@ -7,7 +7,11 @@ public abstract class Alignment {
     // TODO: complete file
 
     // The list of genomes represented in this alignment
-    private final ArrayList<Genome> sequences = new ArrayList<>();
+    private ArrayList<Genome> sequences;
+
+    public Alignment(ArrayList<Genome> sequences) {
+        setSequences(sequences);
+    }
 
     /**
      * Searches the alignment for all genomes with a given sequence
@@ -90,11 +94,24 @@ public abstract class Alignment {
     }
 
     /**
+     * Sets the sequences field equal to a given ArrayList of Genomes
+     * @param sequences an ArrayList<Genome>
+     */
+    private void setSequences(ArrayList<Genome> sequences) {
+        this.sequences = sequences;
+    }
+
+    /**
      * Gives the representation of the alignment
      *
      * @return the representation of the alignment in String format
      */
     public abstract String getRepresentation();
 
+    /**
+     * Calculates the difference score for the alignment
+     *
+     * @return the difference score
+     */
     public abstract int calculateScore();
 }
