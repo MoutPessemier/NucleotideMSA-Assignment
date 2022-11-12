@@ -24,10 +24,20 @@ public class BioInformatician extends TeamMember {
         throw new UnsupportedOperationException();
     }
 
+    /**
+     * Gets this bioinformatician's alignment
+     *
+     * @return the bioinformatician's alignment
+     */
     public Alignment getPersonalAlignment() {
         return personalAlignment;
     }
 
+    /**
+     * Sets the personal alignment for this bioinformatician
+     *
+     * @param personalAlignment the alignment that becomes the personal alignment
+     */
     public void setPersonalAlignment(Alignment personalAlignment) {
         this.personalAlignment = personalAlignment;
     }

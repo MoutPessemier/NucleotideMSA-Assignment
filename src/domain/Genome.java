@@ -14,10 +14,20 @@ public class Genome {
         setGenomeSequence(genomeSequence);
     }
 
+    /**
+     * Sets the identifier for the Genome
+     *
+     * @param identifier the identifier
+     */
     public void setIdentifier(String identifier) {
         this.identifier = identifier;
     }
 
+    /**
+     * Sets the sequence for the Genome
+     *
+     * @param genomeSequence the genome sequence
+     */
     public void setGenomeSequence(String genomeSequence) {
         this.genomeSequence = genomeSequence;
     }

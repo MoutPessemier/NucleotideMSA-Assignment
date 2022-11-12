@@ -17,14 +17,29 @@ public abstract class TeamMember {
         setYearsOfExperience(yearsOfExperience);
     }
 
+    /**
+     * Sets the first name of the team member
+     *
+     * @param firstName the first name
+     */
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
+    /**
+     * Sets the last name of the team member
+     *
+     * @param lastName the last name
+     */
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
+    /**
+     * Sets the years of experience within the team of the team member
+     *
+     * @param yearsOfExperience years of experience
+     */
     public void setYearsOfExperience(int yearsOfExperience) {
         this.yearsOfExperience = yearsOfExperience;
     }
