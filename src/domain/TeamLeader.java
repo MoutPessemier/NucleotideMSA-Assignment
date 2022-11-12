@@ -6,14 +6,14 @@ import java.util.ArrayList;
 
 public class TeamLeader extends TeamMember {
     // A list of all bioinformaticians under the team leader
-    private final ArrayList<BioInformatician> team;
+    private ArrayList<BioInformatician> team;
     // The AlignmentRepository containing the optimal solution
     private AlignmentRepository alignmentRepository;
 
     public TeamLeader(String firstName, String lastName, int yearsOfExperience, AlignmentRepository alignmentRepository) {
         super(firstName, lastName, yearsOfExperience);
         setAlignmentRepository(alignmentRepository);
-        team = new ArrayList<>();
+        setTeam(new ArrayList<>());
     }
 
     /**
@@ -75,6 +75,15 @@ public class TeamLeader extends TeamMember {
      */
     public void setAlignmentRepository(AlignmentRepository alignmentRepository) {
         this.alignmentRepository = alignmentRepository;
+    }
+
+    /**
+     * Sets the team for the team leader
+     *
+     * @param team the team
+     */
+    public void setTeam(ArrayList<BioInformatician> team) {
+        this.team = team;
     }
 
     /**

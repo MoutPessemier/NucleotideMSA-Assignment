@@ -115,7 +115,7 @@ public abstract class Alignment {
      *
      * @param genomes an ArrayList<Genome>
      */
-    private void setGenomes(ArrayList<Genome> genomes) {
+    public void setGenomes(ArrayList<Genome> genomes) {
         this.genomes = genomes;
     }
 
