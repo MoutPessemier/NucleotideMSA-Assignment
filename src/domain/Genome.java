@@ -2,8 +2,6 @@ package domain;
 
 // Represents one entity inside the fasta file (2 lines)
 public class Genome {
-    // TODO: complete file
-
     // The identifier of each genome
     private String identifier;
     // The genome sequence
@@ -15,12 +13,30 @@ public class Genome {
     }
 
     /**
+     * Gets the identifier of this genome
+     *
+     * @return the identifier
+     */
+    public String getIdentifier() {
+        return identifier;
+    }
+
+    /**
      * Sets the identifier for the Genome
      *
      * @param identifier the identifier
      */
     public void setIdentifier(String identifier) {
         this.identifier = identifier;
+    }
+
+    /**
+     * Gets the genome sequence of this genome
+     *
+     * @return the genome sequence
+     */
+    public String getGenomeSequence() {
+        return genomeSequence;
     }
 
     /**

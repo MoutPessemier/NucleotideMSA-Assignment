@@ -1,16 +1,15 @@
 package domain;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 // Represents the alignment with a list of genome sequences
 public abstract class Alignment {
-    // TODO: complete file
-
     // The list of genomes represented in this alignment
-    private ArrayList<Genome> sequences;
+    private ArrayList<Genome> genomes;
 
-    public Alignment(ArrayList<Genome> sequences) {
-        setSequences(sequences);
+    public Alignment(ArrayList<Genome> genomes) {
+        setGenomes(genomes);
     }
 
     /**
@@ -20,7 +19,13 @@ public abstract class Alignment {
      * @return a list of all identifiers
      */
     public ArrayList<String> searchForGenome(String sequence) {
-        throw new UnsupportedOperationException();
+        ArrayList<String> sequences = new ArrayList<>();
+        genomes.forEach(genome -> {
+            if (genome.getGenomeSequence().contains(sequence)) {
+                sequences.add(genome.getGenomeSequence());
+            }
+        });
+        return sequences;
     }
 
     /**
@@ -30,7 +35,8 @@ public abstract class Alignment {
      * @return a specific genome
      */
     public Genome findGenome(String identifier) {
-        throw new UnsupportedOperationException();
+        Optional<Genome> foundGenome = genomes.stream().filter(genome -> genome.getIdentifier().equals(identifier)).findFirst();
+        return foundGenome.orElse(null);
     }
 
     /**
@@ -40,7 +46,11 @@ public abstract class Alignment {
      * @param sequence   a replacement sequence
      */
     public void replaceGenome(String identifier, String sequence) {
-        throw new UnsupportedOperationException();
+        for (Genome genome : genomes) {
+            if (genome.getIdentifier().equals(identifier)) {
+                genome.setGenomeSequence(sequence);
+            }
+        }
     }
 
     /**
@@ -51,7 +61,8 @@ public abstract class Alignment {
      * @param newCharacter       the character that will replace the old character in the sequence
      */
     public void replaceCharacterForGenome(String identifier, char characterToReplace, char newCharacter) {
-        throw new UnsupportedOperationException();
+        Optional<Genome> foundGenome = genomes.stream().filter(genome -> genome.getIdentifier().equals(identifier)).findFirst();
+        foundGenome.ifPresent(genome -> genome.setGenomeSequence(genome.getGenomeSequence().replace(characterToReplace, newCharacter)));
     }
 
     /**
@@ -61,7 +72,7 @@ public abstract class Alignment {
      * @param newCharacter       the character that will replace the old character in the sequence
      */
     public void replaceAllCharacters(char characterToReplace, char newCharacter) {
-        throw new UnsupportedOperationException();
+        genomes.forEach(genome -> genome.setGenomeSequence(genome.getGenomeSequence().replace(characterToReplace, newCharacter)));
     }
 
     /**
@@ -71,7 +82,7 @@ public abstract class Alignment {
      * @param genomeSequence a genome sequence
      */
     public void addGenome(String identifier, String genomeSequence) {
-        throw new UnsupportedOperationException();
+        genomes.add(new Genome(identifier, genomeSequence));
     }
 
     /**
@@ -81,7 +92,13 @@ public abstract class Alignment {
      * @return the removed genome
      */
     public Genome removeGenome(String identifier) {
-        throw new UnsupportedOperationException();
+        Optional<Genome> foundGenome = genomes.stream().filter(genome -> genome.getIdentifier().equals(identifier)).findFirst();
+        if (foundGenome.isPresent()) {
+            genomes.remove(foundGenome.get());
+            return foundGenome.get();
+        }
+        // no genome found
+        return null;
     }
 
     /**
@@ -90,15 +107,16 @@ public abstract class Alignment {
      * @return a list of genomes
      */
     public ArrayList<Genome> getSequences() {
-        return sequences;
+        return genomes;
     }
 
     /**
      * Sets the sequences field equal to a given ArrayList of Genomes
-     * @param sequences an ArrayList<Genome>
+     *
+     * @param genomes an ArrayList<Genome>
      */
-    private void setSequences(ArrayList<Genome> sequences) {
-        this.sequences = sequences;
+    private void setGenomes(ArrayList<Genome> genomes) {
+        this.genomes = genomes;
     }
 
     /**

@@ -5,7 +5,9 @@ import repositories.AlignmentRepository;
 import java.util.ArrayList;
 
 public class TeamLeader extends TeamMember {
+    // A list of all bioinformaticians under the team leader
     private final ArrayList<BioInformatician> team;
+    // The AlignmentRepository containing the optimal solution
     private AlignmentRepository alignmentRepository;
 
     public TeamLeader(String firstName, String lastName, int yearsOfExperience, AlignmentRepository alignmentRepository) {
