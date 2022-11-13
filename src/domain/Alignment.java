@@ -6,7 +6,7 @@ import java.util.Optional;
 // Represents the alignment with a list of genome sequences
 public abstract class Alignment {
     // The list of genomes represented in this alignment
-    private ArrayList<Genome> genomes;
+    protected ArrayList<Genome> genomes;
 
     public Alignment(ArrayList<Genome> genomes) {
         setGenomes(genomes);
