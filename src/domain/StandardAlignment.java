@@ -31,23 +31,4 @@ public class StandardAlignment extends Alignment {
         });
         return stringBuilder.toString();
     }
-
-    /**
-     * Calculates the difference score for the standard alignment
-     *
-     * @return the difference score
-     */
-    @Override
-    public int calculateScore() {
-        int differences = 0;
-        Genome reference = genomes.get(0);
-        for (Genome genome : genomes) {
-            for (int i = 0; i < genome.getGenomeSequence().length(); i++) {
-                if (genome.getGenomeSequence().charAt(i) != reference.getGenomeSequence().charAt(i)) {
-                    differences++;
-                }
-            }
-        }
-        return differences;
-    }
 }

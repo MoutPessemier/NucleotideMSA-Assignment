@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 // Represents the SNP style aligment
 public class SNPAlignment extends Alignment {
-    // TODO: complete file
 
     public SNPAlignment() {
         super(new ArrayList<Genome>());
@@ -21,16 +20,21 @@ public class SNPAlignment extends Alignment {
      */
     @Override
     public String getRepresentation() {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * Calculates the difference score for the SNP alignment
-     *
-     * @return the difference score
-     */
-    @Override
-    public int calculateScore() {
-        throw new UnsupportedOperationException();
+        StringBuilder stringBuilder = new StringBuilder();
+        Genome reference = genomes.get(0);
+        genomes.forEach(genome -> {
+            stringBuilder.append(genome.getIdentifier())
+                    .append(System.getProperty("line.separator"));
+            for (int i = 0; i < reference.getGenomeSequence().length(); i++) {
+                if(reference.getGenomeSequence().charAt(i) == genome.getGenomeSequence().charAt(i)) {
+                    stringBuilder.append(".");
+                } else {
+                    stringBuilder.append(genome.getGenomeSequence().charAt(i));
+                }
+            }
+            stringBuilder.append(System.getProperty("line.separator"))
+                    .append(System.getProperty("line.separator"));
+        });
+        return stringBuilder.toString();
     }
 }

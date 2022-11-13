@@ -48,8 +48,8 @@ public class StartUp {
         }
 
         // STEP 4.: Print the starting alignments by calling getRepresentation()
-        System.out.printf("The starting alignment in standard format is: %n%s%nWith a difference score of: %n%d%n", startingAlignment.getRepresentation(), startingAlignment.calculateScore());
-        System.out.printf("The starting alignment in SNP format is: %n%s%nWith a difference score of: %n%d%n", startingAlignmentSNP.getRepresentation(), startingAlignmentSNP.calculateScore());
+        System.out.printf("The starting alignment in standard format is: %n%sWith a difference score of: %n%d%n%n%n", startingAlignment.getRepresentation(), startingAlignment.calculateScore());
+        System.out.printf("The starting alignment in SNP format is: %n%sWith a difference score of: %n%d%n%n%n", startingAlignmentSNP.getRepresentation(), startingAlignmentSNP.calculateScore());
 
         // STEP 5.: Create the repository to keep track of the optimal alignments
         AlignmentRepository alignmentRepository = new AlignmentRepository(startingAlignment, startingAlignmentSNP);

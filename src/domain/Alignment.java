@@ -131,5 +131,16 @@ public abstract class Alignment {
      *
      * @return the difference score
      */
-    public abstract int calculateScore();
+    public int calculateScore() {
+        int differences = 0;
+        Genome reference = genomes.get(0);
+        for (Genome genome : genomes) {
+            for (int i = 0; i < genome.getGenomeSequence().length(); i++) {
+                if (genome.getGenomeSequence().charAt(i) != reference.getGenomeSequence().charAt(i)) {
+                    differences++;
+                }
+            }
+        }
+        return differences;
+    };
 }
