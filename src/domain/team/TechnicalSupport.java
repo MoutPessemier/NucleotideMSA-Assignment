@@ -1,4 +1,4 @@
-package domain;
+package domain.team;
 
 import java.time.LocalDateTime;
 

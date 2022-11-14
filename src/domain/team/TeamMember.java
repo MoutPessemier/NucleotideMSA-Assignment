@@ -1,4 +1,4 @@
-package domain;
+package domain.team;
 
 // Represents a member of the team, found in the team.txt file
 public abstract class TeamMember {

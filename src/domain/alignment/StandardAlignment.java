@@ -1,4 +1,6 @@
-package domain;
+package domain.alignment;
+
+import domain.Genome;
 
 import java.util.ArrayList;
 

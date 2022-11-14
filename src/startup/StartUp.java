@@ -1,6 +1,11 @@
 package startup;
 
 import domain.*;
+import domain.alignment.SNPAlignment;
+import domain.alignment.StandardAlignment;
+import domain.team.BioInformatician;
+import domain.team.TeamLeader;
+import domain.team.TechnicalSupport;
 import repositories.AlignmentRepository;
 
 import java.io.BufferedReader;

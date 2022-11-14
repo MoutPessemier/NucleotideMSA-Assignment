@@ -1,5 +1,8 @@
-package domain;
+package domain.team;
 
+import domain.alignment.Alignment;
+import domain.alignment.SNPAlignment;
+import domain.alignment.StandardAlignment;
 import repositories.AlignmentRepository;
 
 import java.io.BufferedWriter;

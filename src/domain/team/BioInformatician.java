@@ -1,4 +1,6 @@
-package domain;
+package domain.team;
+
+import domain.alignment.Alignment;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -18,7 +20,7 @@ public class BioInformatician extends TeamMember {
      */
     public void writeDataToFile() {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("src/files/" + firstName + lastName + ".alignment.txt"))) {
-            personalAlignment.genomes.forEach(genome -> {
+            personalAlignment.getSequences().forEach(genome -> {
                 try {
                     writer.write(genome.getIdentifier());
                     writer.write(System.lineSeparator());

@@ -1,7 +1,7 @@
 package repositories;
 
-import domain.SNPAlignment;
-import domain.StandardAlignment;
+import domain.alignment.SNPAlignment;
+import domain.alignment.StandardAlignment;
 
 // Keeps track of the optimal alignment in both notations
 public class AlignmentRepository {
