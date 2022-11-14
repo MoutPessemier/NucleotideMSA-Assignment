@@ -2,7 +2,7 @@ package domain;
 
 public class BioInformatician extends TeamMember {
     // TODO: complete file
-
+    // The bioinformatician's personal alignment
     private Alignment personalAlignment;
 
     public BioInformatician(String firstName, String lastName, int yearsOfExperience, Alignment personalAlignment) {

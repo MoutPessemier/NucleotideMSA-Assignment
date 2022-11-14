@@ -2,8 +2,6 @@ package domain;
 
 // Represents a member of the team, found in the team.txt file
 public abstract class TeamMember {
-    // TODO: complete file
-
     // Represents the first name
     private String firstName;
     // Represents the last name

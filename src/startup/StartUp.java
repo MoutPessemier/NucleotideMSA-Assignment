@@ -97,7 +97,7 @@ public class StartUp {
         /* POSSIBLE SCENARIOS TO SHOW:
         let the bioinformaticians do their work
         write best alignment to repo
-        update every bioinformatician's alignment
+        update every/some bioinformatician's alignment to match repo alignment
         backup repo
         flush repo
         restore repo
@@ -105,6 +105,7 @@ public class StartUp {
         write away individual scores (bioinformaticians)
         write away all reports (teamleader)
         write away individual reports (bioinformaticians)
+        recalculate scores
         */
     }
 }

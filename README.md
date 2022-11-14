@@ -1,1 +1,2 @@
 # NucleotideMSA-Assignment
+In this assignment, I had to create an application for a team of Bio-Informaticians to work on nucleotide multiple sequence alignments (MSA). The application is a command line application, no GUI is provided.

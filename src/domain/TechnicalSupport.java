@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 public class TechnicalSupport extends TeamMember {
     // TODO: complete file
-
+    // The Date and Time of the last backup
     private LocalDateTime lastBackup;
 
     public TechnicalSupport(String firstName, String lastName, int yearsOfExperience) {
