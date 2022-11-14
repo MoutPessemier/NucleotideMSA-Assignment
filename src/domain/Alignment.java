@@ -45,7 +45,7 @@ public abstract class Alignment {
      * @param identifier a genome identifier
      * @param sequence   a replacement sequence
      */
-    public void replaceGenome(String identifier, String sequence) {
+    public void replaceGenomeSequence(String identifier, String sequence) {
         for (Genome genome : genomes) {
             if (genome.getIdentifier().equals(identifier)) {
                 genome.setGenomeSequence(sequence);
@@ -62,7 +62,7 @@ public abstract class Alignment {
      */
     public void replaceCharacterForGenome(String identifier, char characterToReplace, char newCharacter) {
         Optional<Genome> foundGenome = genomes.stream().filter(genome -> genome.getIdentifier().equals(identifier)).findFirst();
-        foundGenome.ifPresent(genome -> genome.setGenomeSequence(genome.getGenomeSequence().replace(characterToReplace, newCharacter)));
+        foundGenome.ifPresent(genome -> genome.setGenomeSequence(genome.getGenomeSequence().replaceAll(Character.toString(characterToReplace), Character.toString(newCharacter))));
     }
 
     /**
@@ -72,7 +72,7 @@ public abstract class Alignment {
      * @param newCharacter       the character that will replace the old character in the sequence
      */
     public void replaceAllCharacters(char characterToReplace, char newCharacter) {
-        genomes.forEach(genome -> genome.setGenomeSequence(genome.getGenomeSequence().replace(characterToReplace, newCharacter)));
+        genomes.forEach(genome -> genome.setGenomeSequence(genome.getGenomeSequence().replaceAll(Character.toString(characterToReplace), Character.toString(newCharacter))));
     }
 
     /**
@@ -142,5 +142,5 @@ public abstract class Alignment {
             }
         }
         return differences;
-    };
+    }
 }

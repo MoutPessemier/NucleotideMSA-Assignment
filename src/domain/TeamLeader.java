@@ -2,6 +2,9 @@ package domain;
 
 import repositories.AlignmentRepository;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class TeamLeader extends TeamMember {
@@ -38,14 +41,41 @@ public class TeamLeader extends TeamMember {
      * Writes all personal alignments to an output file
      */
     public void writeDataToFile() {
-        team.forEach(BioInformatician::writeDataToFile);
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("src/files/" + firstName + lastName + ".alignment.txt"))) {
+            team.forEach(bioInformatician -> {
+                bioInformatician.getPersonalAlignment().getSequences().forEach(genome -> {
+                    try {
+                        writer.write(genome.getIdentifier());
+                        writer.write(System.lineSeparator());
+                        writer.write(genome.getGenomeSequence());
+                        writer.write(System.lineSeparator());
+                    } catch (IOException e) {
+                        System.out.println("Error writing to file for bioinformatician: " + bioInformatician.toString() + " at identifier: " + genome.getIdentifier());
+                        // We want the program to stop if we can't write the whole alignment to a file
+                        System.exit(1);
+                    }
+                });
+            });
+        } catch (IOException e) {
+            System.out.println("Something went wrong when writing to the output file: " + e);
+        }
     }
 
     /**
      * Writes all of the user's alignments scores to an output file
      */
     public void writeReportToFile() {
-        team.forEach(BioInformatician::writeReportToFile);
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("src/files/" + firstName + lastName + ".score.txt"))) {
+            team.forEach(bioInformatician -> {
+                try {
+                    writer.write("Difference score: " + bioInformatician.getPersonalAlignment().calculateScore());
+                } catch (IOException e) {
+                    System.out.println("Error writing difference score to file for bioinformatician: " + bioInformatician.toString());
+                }
+            });
+        } catch (IOException e) {
+            System.out.println("Something went wrong when writing to the output file: " + e);
+        }
     }
 
     /**

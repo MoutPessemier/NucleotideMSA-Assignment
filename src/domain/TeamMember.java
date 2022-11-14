@@ -3,11 +3,11 @@ package domain;
 // Represents a member of the team, found in the team.txt file
 public abstract class TeamMember {
     // Represents the first name
-    private String firstName;
+    protected String firstName;
     // Represents the last name
-    private String lastName;
+    protected String lastName;
     // Indicates how long the team member is part of the team
-    private int yearsOfExperience;
+    protected int yearsOfExperience;
 
     public TeamMember(String firstName, String lastName, int yearsOfExperience) {
         setFirstName(firstName);
