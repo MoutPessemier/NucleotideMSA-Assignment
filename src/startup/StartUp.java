@@ -1,6 +1,6 @@
 package startup;
 
-import domain.*;
+import domain.Genome;
 import domain.alignment.SNPAlignment;
 import domain.alignment.StandardAlignment;
 import domain.team.BioInformatician;
@@ -78,7 +78,8 @@ public class StartUp {
                         team.add(bioInformatician);
                         break;
                     case "TechnicalSupport":
-                        technicalSupport = new TechnicalSupport(lineComponents[1], lineComponents[2], Integer.parseInt(lineComponents[3]));
+                        technicalSupport = new TechnicalSupport(lineComponents[1], lineComponents[2], Integer.parseInt(lineComponents[3]), alignmentRepository);
+                        technicalSupport.setTeam(team);
                         break;
                     default:
                         System.out.println("Unrecognised team role, skipping creation of team member");

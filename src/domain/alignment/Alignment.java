@@ -2,9 +2,7 @@ package domain.alignment;
 
 import domain.Genome;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -173,6 +171,35 @@ public abstract class Alignment {
             writer.write("Difference score: " + calculateScore());
         } catch (IOException e) {
             System.out.println("Something went wrong when writing to the output file: " + e);
+            System.exit(1);
+        }
+    }
+
+    public void createAlignmentFromFile(String fileName, String start, String stop) {
+        try (BufferedReader reader = new BufferedReader(new FileReader("src/file/" + fileName))) {
+            ArrayList<Genome> genomes = new ArrayList<>();
+            String alignmentName = reader.readLine();
+            while(!alignmentName.equals(start)) {
+                // skip until the start of that alignment is found
+                alignmentName = reader.readLine();
+            }
+            System.out.printf("Now reading %s alignment%n", alignmentName);
+            String line = reader.readLine();
+            while (!line.equals(stop)) {
+                String id = line;
+                line = reader.readLine();
+                String sequence = line;
+                genomes.add(new Genome(id, sequence));
+                line = reader.readLine();
+            }
+            setGenomes(genomes);
+        } catch (FileNotFoundException e) {
+            System.out.println("File " + fileName + " not found: " + e);
+            System.out.println("Exiting program...");
+            System.exit(1);
+        } catch (IOException e) {
+            System.out.println("Something went wrong when reading" + fileName + ":" + e);
+            System.out.println("Exiting program...");
             System.exit(1);
         }
     }
