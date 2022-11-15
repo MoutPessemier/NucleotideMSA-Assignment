@@ -2,6 +2,9 @@ package domain.alignment;
 
 import domain.Genome;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -144,5 +147,33 @@ public abstract class Alignment {
             }
         }
         return differences;
+    }
+
+    public void writeAlignmentToFile(String fileName, boolean append) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("src/files/" + fileName + ".alignment.txt", append))) {
+            genomes.forEach(genome -> {
+                try {
+                    writer.write(genome.getIdentifier());
+                    writer.write(System.lineSeparator());
+                    writer.write(genome.getGenomeSequence());
+                    writer.write(System.lineSeparator());
+                } catch (IOException e) {
+                    System.out.println("Error writing to file: " + fileName + " at identifier: " + genome.getIdentifier());
+                    // We want the program to stop if we can't write the whole alignment to a file
+                    System.exit(1);
+                }
+            });
+        } catch (IOException e) {
+            System.out.println("Something went wrong when writing to the output file: " + e);
+        }
+    }
+
+    public void writeDifferenceScoreToFile(String fileName, boolean append) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("src/files/" + fileName + ".score.txt", append))) {
+            writer.write("Difference score: " + calculateScore());
+        } catch (IOException e) {
+            System.out.println("Something went wrong when writing to the output file: " + e);
+            System.exit(1);
+        }
     }
 }

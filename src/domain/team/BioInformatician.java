@@ -2,10 +2,6 @@ package domain.team;
 
 import domain.alignment.Alignment;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-
 public class BioInformatician extends TeamMember {
     // The bioinformatician's personal alignment
     private Alignment personalAlignment;
@@ -19,33 +15,14 @@ public class BioInformatician extends TeamMember {
      * Writes their personal alignment to an output file
      */
     public void writeDataToFile() {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("src/files/" + firstName + lastName + ".alignment.txt"))) {
-            personalAlignment.getSequences().forEach(genome -> {
-                try {
-                    writer.write(genome.getIdentifier());
-                    writer.write(System.lineSeparator());
-                    writer.write(genome.getGenomeSequence());
-                    writer.write(System.lineSeparator());
-                } catch (IOException e) {
-                    System.out.println("Error writing to file for identifier: " + genome.getIdentifier());
-                    // We want the program to stop if we can't write the whole alignment to a file
-                    System.exit(1);
-                }
-            });
-        } catch (IOException e) {
-            System.out.println("Something went wrong when writing to the output file: " + e);
-        }
+        personalAlignment.writeAlignmentToFile(firstName + lastName, false);
     }
 
     /**
      * Writes the difference score of the personal alignment to an output file
      */
     public void writeReportToFile() {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("src/files/" + firstName + lastName + ".score.txt"))) {
-            writer.write("Difference score: " + personalAlignment.calculateScore());
-        } catch (IOException e) {
-            System.out.println("Something went wrong when writing to the output file: " + e);
-        }
+        personalAlignment.writeDifferenceScoreToFile(firstName + lastName, false);
     }
 
     /**
