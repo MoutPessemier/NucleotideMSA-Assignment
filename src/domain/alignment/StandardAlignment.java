@@ -4,7 +4,7 @@ import domain.Genome;
 
 import java.util.ArrayList;
 
-// Represents the standard style alignment
+// Represents the standard alignment format
 public class StandardAlignment extends Alignment {
 
     public StandardAlignment() {

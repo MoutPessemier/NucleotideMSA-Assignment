@@ -4,7 +4,7 @@ import domain.Genome;
 
 import java.util.ArrayList;
 
-// Represents the SNP style aligment
+// Represents the SNP alignment format
 public class SNPAlignment extends Alignment {
 
     public SNPAlignment() {
@@ -27,6 +27,7 @@ public class SNPAlignment extends Alignment {
         genomes.forEach(genome -> {
             stringBuilder.append(genome.getIdentifier())
                     .append(System.getProperty("line.separator"));
+            // check each character with the reference genome to only show the differences
             for (int i = 0; i < reference.getGenomeSequence().length(); i++) {
                 if(reference.getGenomeSequence().charAt(i) == genome.getGenomeSequence().charAt(i)) {
                     stringBuilder.append(".");

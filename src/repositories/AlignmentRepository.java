@@ -3,7 +3,7 @@ package repositories;
 import domain.alignment.SNPAlignment;
 import domain.alignment.StandardAlignment;
 
-// Keeps track of the optimal alignment in both notations
+// Keeps track of the optimal alignment in both formats
 public class AlignmentRepository {
 
     private StandardAlignment optimalStandardAlignment;

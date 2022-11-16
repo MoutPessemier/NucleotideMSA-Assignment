@@ -16,29 +16,31 @@ public abstract class Alignment {
     }
 
     /**
-     * Searches the alignment for all genomes with a given sequence
+     * Searches the alignment for all genomes that contain a given sequence
      *
      * @param sequence a sequence of genome characters
      * @return a list of all identifiers
      */
     public ArrayList<String> searchForGenome(String sequence) {
-        ArrayList<String> sequences = new ArrayList<>();
+        ArrayList<String> identifiers = new ArrayList<>();
         genomes.forEach(genome -> {
             if (genome.getGenomeSequence().contains(sequence)) {
-                sequences.add(genome.getGenomeSequence());
+                identifiers.add(genome.getIdentifier());
             }
         });
-        return sequences;
+        return identifiers;
     }
 
     /**
      * Searches the alignment for a specific genome using it's identifier
      *
      * @param identifier a genome identifier
-     * @return a specific genome
+     * @return a specific genome or null
      */
     public Genome findGenome(String identifier) {
+        // Searches for a genome with the given identifier
         Optional<Genome> foundGenome = genomes.stream().filter(genome -> genome.getIdentifier().equals(identifier)).findFirst();
+        // if a genome is found, return the genome, else return null
         return foundGenome.orElse(null);
     }
 
@@ -49,11 +51,11 @@ public abstract class Alignment {
      * @param sequence   a replacement sequence
      */
     public void replaceGenomeSequence(String identifier, String sequence) {
-        for (Genome genome : genomes) {
+        genomes.forEach(genome -> {
             if (genome.getIdentifier().equals(identifier)) {
                 genome.setGenomeSequence(sequence);
             }
-        }
+        });
     }
 
     /**
@@ -105,24 +107,6 @@ public abstract class Alignment {
     }
 
     /**
-     * Gets the list of genome sequences in the alignment
-     *
-     * @return a list of genomes
-     */
-    public ArrayList<Genome> getSequences() {
-        return genomes;
-    }
-
-    /**
-     * Sets the sequences field equal to a given ArrayList of Genomes
-     *
-     * @param genomes an ArrayList<Genome>
-     */
-    public void setGenomes(ArrayList<Genome> genomes) {
-        this.genomes = genomes;
-    }
-
-    /**
      * Gives the representation of the alignment
      *
      * @return the representation of the alignment in String format
@@ -147,6 +131,12 @@ public abstract class Alignment {
         return differences;
     }
 
+    /**
+     * Writes the alignment away to a file
+     *
+     * @param fileName the name of the output file
+     * @param append   if the writer should append to the file or overwrite the file
+     */
     public void writeAlignmentToFile(String fileName, boolean append) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("src/files/" + fileName + ".alignment.txt", append))) {
             genomes.forEach(genome -> {
@@ -166,6 +156,12 @@ public abstract class Alignment {
         }
     }
 
+    /**
+     * Writes the difference score to a file
+     *
+     * @param fileName the name of the output file
+     * @param append   if the writer should append to the file or overwrite the file
+     */
     public void writeDifferenceScoreToFile(String fileName, boolean append) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("src/files/" + fileName + ".score.txt", append))) {
             writer.write("Difference score: " + calculateScore());
@@ -175,11 +171,18 @@ public abstract class Alignment {
         }
     }
 
+    /**
+     * Creates an alignment from a file (between 2 delimiters)
+     *
+     * @param fileName the name of the input file
+     * @param start    the start delimiter
+     * @param stop     the stop delimiter
+     */
     public void createAlignmentFromFile(String fileName, String start, String stop) {
         try (BufferedReader reader = new BufferedReader(new FileReader("src/file/" + fileName))) {
             ArrayList<Genome> genomes = new ArrayList<>();
             String alignmentName = reader.readLine();
-            while(!alignmentName.equals(start)) {
+            while (!alignmentName.equals(start)) {
                 // skip until the start of that alignment is found
                 alignmentName = reader.readLine();
             }
@@ -202,5 +205,23 @@ public abstract class Alignment {
             System.out.println("Exiting program...");
             System.exit(1);
         }
+    }
+
+    /**
+     * Gets the list of genome sequences in the alignment
+     *
+     * @return a list of genomes
+     */
+    public ArrayList<Genome> getSequences() {
+        return genomes;
+    }
+
+    /**
+     * Sets the sequences field equal to a given ArrayList of Genomes
+     *
+     * @param genomes an ArrayList<Genome>
+     */
+    public void setGenomes(ArrayList<Genome> genomes) {
+        this.genomes = genomes;
     }
 }
