@@ -56,26 +56,27 @@ public class StartUp {
         AlignmentRepository alignmentRepository = new AlignmentRepository(startingAlignment);
 
         // STEP 6.: Read in the team file
-        TeamLeader teamLeader;
-        TechnicalSupport technicalSupport;
+        ArrayList<BioInformatician> team = new ArrayList<>();
+        ArrayList<TeamLeader> leaders = new ArrayList<>();
+        ArrayList<TechnicalSupport> supports = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader("src/files/team.txt"))) {
             String line = reader.readLine();
             // STEP 7.: Team creation
-            ArrayList<BioInformatician> team = new ArrayList<>();
             while (line != null) {
                 String[] lineComponents = line.split(" ");
                 switch (lineComponents[0]) {
                     case "TeamLead":
-                        teamLeader = new TeamLeader(lineComponents[1], lineComponents[2], Integer.parseInt(lineComponents[3]), alignmentRepository);
+                        TeamLeader teamLeader = new TeamLeader(lineComponents[1], lineComponents[2], Integer.parseInt(lineComponents[3]), alignmentRepository);
                         teamLeader.setTeam(team);
+                        leaders.add(teamLeader);
                         break;
-                    case "BioInformatician":
+                    case "Bioinformatician":
                         BioInformatician bioInformatician = new BioInformatician(lineComponents[1], lineComponents[2], Integer.parseInt(lineComponents[3]), startingAlignment);
                         team.add(bioInformatician);
                         break;
                     case "TechnicalSupport":
-                        technicalSupport = new TechnicalSupport(lineComponents[1], lineComponents[2], Integer.parseInt(lineComponents[3]), alignmentRepository);
-                        technicalSupport.setTeam(team);
+                        TechnicalSupport technicalSupport = new TechnicalSupport(lineComponents[1], lineComponents[2], Integer.parseInt(lineComponents[3]), alignmentRepository);
+                        supports.add(technicalSupport);
                         break;
                     default:
                         System.out.println("Unrecognised team role, skipping creation of team member");
@@ -94,6 +95,10 @@ public class StartUp {
         }
 
         // STEP 7.: Display the whole team
+        System.out.println("The team consists of: ");
+        leaders.forEach(leader -> System.out.println(leader.toString()));
+        team.forEach(bioInformatician -> System.out.println(bioInformatician.toString()));
+        supports.forEach(support -> System.out.println(support.toString()));
 
 
         /* POSSIBLE SCENARIOS TO SHOW:

@@ -14,8 +14,6 @@ public class TechnicalSupport extends TeamMember {
     private LocalDateTime lastBackup;
     // The AlignmentRepository on which the TechnicalSupport needs to work
     private AlignmentRepository alignmentRepository;
-    // the team of bioinformaticians working on the alignments
-    private ArrayList<BioInformatician> team;
 
 
     public TechnicalSupport(String firstName, String lastName, int yearsOfExperience, AlignmentRepository alignmentRepository) {
@@ -26,7 +24,7 @@ public class TechnicalSupport extends TeamMember {
     /**
      * Backs up all user alignments and the optimal alignment
      */
-    public void backupRepository() {
+    public void backupRepository(ArrayList<BioInformatician> team) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("src/files/backup.txt"))) {
             // indicate where this alignment starts
             writer.write("Optimal Alignment");
@@ -55,7 +53,7 @@ public class TechnicalSupport extends TeamMember {
     /**
      * Restores a previous backup by overwriting the current optimal alignment and all the user's personal alignments
      */
-    public void reinstateBackup() {
+    public void reinstateBackup(ArrayList<BioInformatician> team) {
         alignmentRepository.createAlignmentFromFile("backup.txt", "Optimal Alignment", "--stop optimal--");
         team.forEach(bioInformatician -> {
             bioInformatician.getPersonalAlignment().createAlignmentFromFile("backup.txt", bioInformatician.firstName + " " + bioInformatician.lastName,
@@ -66,7 +64,7 @@ public class TechnicalSupport extends TeamMember {
     /**
      * Empties the current optimal alignment and each user's personal alignment
      */
-    public void clearRepository() {
+    public void clearRepository(ArrayList<BioInformatician> team) {
         alignmentRepository.setOptimalAlignment(new Alignment());
         team.forEach(bioInformatician -> {
             bioInformatician.setPersonalAlignment(new Alignment());
@@ -92,21 +90,12 @@ public class TechnicalSupport extends TeamMember {
     }
 
     /**
-     * Sets the team for a TechnicalSupport
-     *
-     * @param team the list of bioinformaticians in the team
-     */
-    public void setTeam(ArrayList<BioInformatician> team) {
-        this.team = team;
-    }
-
-    /**
      * A pleasing String representation of the class TechnicalSupport
      *
      * @return the String representation of TechnicalSupport
      */
     @Override
     public String toString() {
-        return "Technical support " + super.toString();
+        return "Technical Support " + super.toString();
     }
 }
