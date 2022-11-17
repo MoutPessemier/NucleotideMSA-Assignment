@@ -1,7 +1,7 @@
 package startup;
 
-import domain.Genome;
 import domain.Alignment;
+import domain.Genome;
 import domain.team.BioInformatician;
 import domain.team.TeamLeader;
 import domain.team.TechnicalSupport;
@@ -18,7 +18,6 @@ public class StartUp {
         // TODO: complete file
         // STEP 1.: Creating the starting alignments
         Alignment startingAlignment = new Alignment();
-
         // STEP 2.: Read in the fasta file
         try (BufferedReader reader = new BufferedReader(new FileReader("src/files/hiv.fasta"))) {
             // STEP 3.: Create genome object from the fasta file and add them to the alignment objects
@@ -50,7 +49,8 @@ public class StartUp {
         }
 
         // STEP 4.: Print the starting alignments by calling getRepresentation()
-        System.out.printf("The starting alignment in standard format is: %n%sWith a difference score of: %n%d%n%n%n", startingAlignment.getRepresentation(), startingAlignment.calculateScore());
+        System.out.printf("The starting alignment in standard format is: %n%sIn SNP format %s%nWith a difference score of: %n%d%n%n%n",
+                startingAlignment.getRepresentation(), startingAlignment.getSNPRepresentation(), startingAlignment.calculateScore());
 
         // STEP 5.: Create the repository to keep track of the optimal alignments
         AlignmentRepository alignmentRepository = new AlignmentRepository(startingAlignment);

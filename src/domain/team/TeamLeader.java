@@ -39,8 +39,10 @@ public class TeamLeader extends TeamMember {
      * Writes all personal alignments to an output file
      */
     public void writeDataToFile() {
+        // The names of the TeamLeader are needed, not those of the bioinformatician
+        String fileName = this.firstName + this.lastName;
         team.forEach(bioInformatician -> {
-            bioInformatician.getPersonalAlignment().writeAlignmentToFile(firstName + lastName, true);
+            bioInformatician.getPersonalAlignment().writeAlignmentToFile(fileName, true);
         });
     }
 
@@ -48,10 +50,11 @@ public class TeamLeader extends TeamMember {
      * Writes all of the user's alignments scores to an output file
      */
     public void writeReportToFile() {
+        // The names of the TeamLeader are needed, not those of the bioinformatician
+        String fileName = this.firstName + this.lastName;
         team.forEach(bioInformatician -> {
-            bioInformatician.getPersonalAlignment().writeDifferenceScoreToFile(firstName + lastName, true);
+            bioInformatician.getPersonalAlignment().writeDifferenceScoreToFile(fileName, true);
         });
-
     }
 
     /**
