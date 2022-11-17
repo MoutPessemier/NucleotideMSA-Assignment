@@ -16,7 +16,7 @@ public class StartUp {
         // TODO: complete file
         // Step 0.: Read in the properties
         Properties properties = new Properties();
-        try (InputStream inputStream = new FileInputStream("application.properties")) {
+        try (InputStream inputStream = new FileInputStream("src/config.properties")) {
             properties.load(inputStream);
         } catch (FileNotFoundException e) {
             System.out.println("Properties file not found: " + e);
