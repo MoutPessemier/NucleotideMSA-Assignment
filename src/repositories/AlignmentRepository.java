@@ -1,52 +1,55 @@
 package repositories;
 
-import domain.alignment.SNPAlignment;
-import domain.alignment.StandardAlignment;
+import domain.Genome;
+import domain.Alignment;
+
+import java.util.ArrayList;
 
 // Keeps track of the optimal alignment in both formats
 public class AlignmentRepository {
 
-    private StandardAlignment optimalStandardAlignment;
-    private SNPAlignment optimalSNPAlignment;
+    private Alignment optimalAlignment;
 
-    public AlignmentRepository(StandardAlignment optimalStandardAlignment, SNPAlignment optimalSNPAlignment) {
-        setOptimalStandardAlignment(optimalStandardAlignment);
-        setOptimalSNPAlignment(optimalSNPAlignment);
+    public AlignmentRepository(Alignment optimalAlignment) {
+        setOptimalAlignment(optimalAlignment);
     }
 
     /**
-     * Gets the standard format of the optimal alignment
+     * Writes alignment away to file
      *
-     * @return standard alignment of the optimal alignment
+     * @param fileName the name of the output file
+     * @param append   if the writer should append or overwrite
      */
-    public StandardAlignment getOptimalStandardAlignment() {
-        return optimalStandardAlignment;
+    public void writeAlignmentToFile(String fileName, boolean append) {
+        optimalAlignment.writeAlignmentToFile(fileName, append);
+    }
+
+    /**
+     * Creates an alignment from an input file
+     *
+     * @param fileName the name of the input file
+     * @param start    the start delimiter
+     * @param stop     the stop delimiter
+     */
+    public void createAlignmentFromFile(String fileName, String start, String stop) {
+        optimalAlignment.createAlignmentFromFile(fileName, start, stop);
+    }
+
+    /**
+     * Gets the optimal alignment's genome sequences
+     *
+     * @return a list of genome sequences
+     */
+    public ArrayList<Genome> getOptimalSequences() {
+        return optimalAlignment.getSequences();
     }
 
     /**
      * Sets the standard representation of the optimal alignment
      *
-     * @param optimalStandardAlignment standard representation of optimal alignment
+     * @param optimalAlignment standard representation of optimal alignment
      */
-    public void setOptimalStandardAlignment(StandardAlignment optimalStandardAlignment) {
-        this.optimalStandardAlignment = optimalStandardAlignment;
-    }
-
-    /**
-     * Gets the SNP format of the optimal alignment
-     *
-     * @return SNP alignment of the optimal alignment
-     */
-    public SNPAlignment getOptimalSNPAlignment() {
-        return optimalSNPAlignment;
-    }
-
-    /**
-     * Sets the SNP representation of the optimal alignment
-     *
-     * @param optimalSNPAlignment SNP representation of optimal alignment
-     */
-    public void setOptimalSNPAlignment(SNPAlignment optimalSNPAlignment) {
-        this.optimalSNPAlignment = optimalSNPAlignment;
+    public void setOptimalAlignment(Alignment optimalAlignment) {
+        this.optimalAlignment = optimalAlignment;
     }
 }

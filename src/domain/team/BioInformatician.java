@@ -1,6 +1,6 @@
 package domain.team;
 
-import domain.alignment.Alignment;
+import domain.Alignment;
 
 public class BioInformatician extends TeamMember {
     // The bioinformatician's personal alignment

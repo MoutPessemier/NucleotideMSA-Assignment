@@ -1,7 +1,6 @@
 package domain.team;
 
-import domain.alignment.SNPAlignment;
-import domain.alignment.StandardAlignment;
+import domain.Alignment;
 import repositories.AlignmentRepository;
 
 import java.io.BufferedWriter;
@@ -25,7 +24,7 @@ public class TechnicalSupport extends TeamMember {
     }
 
     /**
-     * Backs up all user alignments, the optimal alignment and the SNP alignment
+     * Backs up all user alignments and the optimal alignment
      */
     public void backupRepository() {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("src/files/backup.txt"))) {
@@ -33,7 +32,7 @@ public class TechnicalSupport extends TeamMember {
             writer.write("Optimal Alignment");
             writer.write(System.lineSeparator());
             // only write away 1 of the optimal alignments because they are the same anyway
-            alignmentRepository.getOptimalStandardAlignment().writeAlignmentToFile("backup.txt", true);
+            alignmentRepository.writeAlignmentToFile("backup.txt", true);
             // delimit where this alignment stops
             writer.write("--stop optimal--");
             writer.write(System.lineSeparator());
@@ -54,11 +53,10 @@ public class TechnicalSupport extends TeamMember {
     }
 
     /**
-     * Restores a previous backup by overwriting the current optimal alignment, it's SNP alignment and all the user's personal alignments
+     * Restores a previous backup by overwriting the current optimal alignment and all the user's personal alignments
      */
     public void reinstateBackup() {
-        alignmentRepository.getOptimalStandardAlignment().createAlignmentFromFile("backup.txt", "Optimal Alignment", "--stop optimal--");
-        alignmentRepository.getOptimalSNPAlignment().createAlignmentFromFile("backup.txt", "Optimal Alignment", "--stop optimal--");
+        alignmentRepository.createAlignmentFromFile("backup.txt", "Optimal Alignment", "--stop optimal--");
         team.forEach(bioInformatician -> {
             bioInformatician.getPersonalAlignment().createAlignmentFromFile("backup.txt", bioInformatician.firstName + " " + bioInformatician.lastName,
                     "--stop " + bioInformatician.firstName + bioInformatician.lastName);
@@ -66,13 +64,12 @@ public class TechnicalSupport extends TeamMember {
     }
 
     /**
-     * Empties the current optimal alignment, the SNP alignment and each user's personal alignment
+     * Empties the current optimal alignment and each user's personal alignment
      */
     public void clearRepository() {
-        alignmentRepository.setOptimalStandardAlignment(new StandardAlignment());
-        alignmentRepository.setOptimalSNPAlignment(new SNPAlignment());
+        alignmentRepository.setOptimalAlignment(new Alignment());
         team.forEach(bioInformatician -> {
-            bioInformatician.setPersonalAlignment(new StandardAlignment());
+            bioInformatician.setPersonalAlignment(new Alignment());
         });
     }
 

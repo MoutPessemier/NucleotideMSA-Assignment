@@ -1,8 +1,7 @@
 package startup;
 
 import domain.Genome;
-import domain.alignment.SNPAlignment;
-import domain.alignment.StandardAlignment;
+import domain.Alignment;
 import domain.team.BioInformatician;
 import domain.team.TeamLeader;
 import domain.team.TechnicalSupport;
@@ -18,8 +17,7 @@ public class StartUp {
     public static void main(String[] args) {
         // TODO: complete file
         // STEP 1.: Creating the starting alignments
-        StandardAlignment startingAlignment = new StandardAlignment();
-        SNPAlignment startingAlignmentSNP = new SNPAlignment();
+        Alignment startingAlignment = new Alignment();
 
         // STEP 2.: Read in the fasta file
         try (BufferedReader reader = new BufferedReader(new FileReader("src/files/hiv.fasta"))) {
@@ -41,7 +39,6 @@ public class StartUp {
             }
             // set the genomes in the starting alignments
             startingAlignment.setGenomes(genomes);
-            startingAlignmentSNP.setGenomes(genomes);
         } catch (FileNotFoundException e) {
             System.out.println("Fasta file not found: " + e);
             System.out.println("Exiting program...");
@@ -54,10 +51,9 @@ public class StartUp {
 
         // STEP 4.: Print the starting alignments by calling getRepresentation()
         System.out.printf("The starting alignment in standard format is: %n%sWith a difference score of: %n%d%n%n%n", startingAlignment.getRepresentation(), startingAlignment.calculateScore());
-        System.out.printf("The starting alignment in SNP format is: %n%sWith a difference score of: %n%d%n%n%n", startingAlignmentSNP.getRepresentation(), startingAlignmentSNP.calculateScore());
 
         // STEP 5.: Create the repository to keep track of the optimal alignments
-        AlignmentRepository alignmentRepository = new AlignmentRepository(startingAlignment, startingAlignmentSNP);
+        AlignmentRepository alignmentRepository = new AlignmentRepository(startingAlignment);
 
         // STEP 6.: Read in the team file
         TeamLeader teamLeader;

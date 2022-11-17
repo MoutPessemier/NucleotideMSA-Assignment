@@ -1,8 +1,6 @@
 package domain.team;
 
-import domain.alignment.Alignment;
-import domain.alignment.SNPAlignment;
-import domain.alignment.StandardAlignment;
+import domain.Alignment;
 import repositories.AlignmentRepository;
 
 import java.util.ArrayList;
@@ -62,8 +60,8 @@ public class TeamLeader extends TeamMember {
      * @param alignment the alignment to become the optimal alignment
      */
     public void copyAlignmentToOptimalAlignment(Alignment alignment) {
-        alignmentRepository.setOptimalSNPAlignment(new SNPAlignment(alignment.getSequences()));
-        alignmentRepository.setOptimalStandardAlignment(new StandardAlignment(alignment.getSequences()));
+        alignmentRepository.setOptimalAlignment(new Alignment(alignment.getSequences()));
+
     }
 
     /**
@@ -72,7 +70,7 @@ public class TeamLeader extends TeamMember {
      * @param user the user for which the alignment needs to be overwritten
      */
     public void overwriteAlignment(BioInformatician user) {
-        StandardAlignment alignment = new StandardAlignment(alignmentRepository.getOptimalStandardAlignment().getSequences());
+        Alignment alignment = new Alignment(alignmentRepository.getOptimalSequences());
         user.setPersonalAlignment(alignment);
     }
 

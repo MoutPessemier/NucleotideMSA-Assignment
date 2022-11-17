@@ -1,4 +1,4 @@
-package domain.alignment;
+package domain;
 
 import domain.Genome;
 
@@ -7,9 +7,13 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 // Represents the alignment with a list of genome sequences
-public abstract class Alignment {
+public class Alignment {
     // The list of genomes represented in this alignment
     protected ArrayList<Genome> genomes;
+
+    public Alignment() {
+        this(new ArrayList<Genome>());
+    }
 
     public Alignment(ArrayList<Genome> genomes) {
         setGenomes(genomes);
@@ -107,11 +111,47 @@ public abstract class Alignment {
     }
 
     /**
-     * Gives the representation of the alignment
+     * Gives the standard representation of the alignment
      *
-     * @return the representation of the alignment in String format
+     * @return the standard representation
      */
-    public abstract String getRepresentation();
+    public String getRepresentation() {
+        StringBuilder stringBuilder = new StringBuilder();
+        genomes.forEach(genome -> {
+            stringBuilder.append(genome.getIdentifier())
+                    .append(System.getProperty("line.separator"))
+                    .append(genome.getGenomeSequence())
+                    .append(System.getProperty("line.separator"))
+                    .append(System.getProperty("line.separator"));
+
+        });
+        return stringBuilder.toString();
+    }
+
+    /**
+     * Gets the SNP representation of the alignment
+     *
+     * @return the SNP representation
+     */
+    public String getSNPRepresentation() {
+        StringBuilder stringBuilder = new StringBuilder();
+        Genome reference = genomes.get(0);
+        genomes.forEach(genome -> {
+            stringBuilder.append(genome.getIdentifier())
+                    .append(System.getProperty("line.separator"));
+            // check each character with the reference genome to only show the differences
+            for (int i = 0; i < reference.getGenomeSequence().length(); i++) {
+                if (reference.getGenomeSequence().charAt(i) == genome.getGenomeSequence().charAt(i)) {
+                    stringBuilder.append(".");
+                } else {
+                    stringBuilder.append(genome.getGenomeSequence().charAt(i));
+                }
+            }
+            stringBuilder.append(System.getProperty("line.separator"))
+                    .append(System.getProperty("line.separator"));
+        });
+        return stringBuilder.toString();
+    }
 
     /**
      * Calculates the difference score for the alignment
