@@ -7,19 +7,30 @@ import domain.team.TeamLeader;
 import domain.team.TechnicalSupport;
 import repositories.AlignmentRepository;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
+import java.util.Properties;
 
 public class StartUp {
     public static void main(String[] args) {
         // TODO: complete file
+        // Step 0.: Read in the properties
+        Properties properties = new Properties();
+        try (InputStream inputStream = new FileInputStream("application.properties")) {
+            properties.load(inputStream);
+        } catch (FileNotFoundException e) {
+            System.out.println("Properties file not found: " + e);
+            System.out.println("Exiting program...");
+            System.exit(1);
+        } catch (IOException e) {
+            System.out.println("Something went wrong when reading the properties file: " + e);
+            System.out.println("Exiting program...");
+            System.exit(1);
+        }
         // STEP 1.: Creating the starting alignments
         Alignment startingAlignment = new Alignment();
         // STEP 2.: Read in the fasta file
-        try (BufferedReader reader = new BufferedReader(new FileReader("src/files/hiv.fasta"))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader("src/files/" + properties.getProperty("fastafilename")))) {
             // STEP 3.: Create genome object from the fasta file and add them to the alignment objects
             ArrayList<Genome> genomes = new ArrayList<>();
             // initial reading of the first id
@@ -59,7 +70,7 @@ public class StartUp {
         ArrayList<BioInformatician> team = new ArrayList<>();
         ArrayList<TeamLeader> leaders = new ArrayList<>();
         ArrayList<TechnicalSupport> supports = new ArrayList<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader("src/files/team.txt"))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader("src/files/" + properties.getProperty("teamfilename")))) {
             String line = reader.readLine();
             // STEP 7.: Team creation
             while (line != null) {
