@@ -86,14 +86,6 @@ public class TeamLeader extends TeamMember {
         this.alignmentRepository = alignmentRepository;
     }
 
-    /**
-     * Gets the team where the teamleader is leader of
-     *
-     * @return a list of bioinformaticians
-     */
-    public ArrayList<BioInformatician> getTeam() {
-        return team;
-    }
 
     /**
      * Sets the team for the team leader
