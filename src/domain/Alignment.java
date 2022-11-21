@@ -187,8 +187,6 @@ public class Alignment {
                     writer.write(System.lineSeparator());
                 } catch (IOException e) {
                     System.out.println("Error writing to file: " + fileName + " at identifier: " + genome.getIdentifier());
-                    // We want the program to stop if we can't write the whole alignment to a file
-                    System.exit(1);
                 }
             });
         } catch (IOException e) {
@@ -207,7 +205,6 @@ public class Alignment {
             writer.write("Difference score: " + calculateScore());
         } catch (IOException e) {
             System.out.println("Something went wrong when writing to the output file: " + e);
-            System.exit(1);
         }
     }
 
@@ -238,12 +235,8 @@ public class Alignment {
             setGenomes(genomes);
         } catch (FileNotFoundException e) {
             System.out.println("File " + fileName + " not found: " + e);
-            System.out.println("Exiting program...");
-            System.exit(1);
         } catch (IOException e) {
             System.out.println("Something went wrong when reading" + fileName + ":" + e);
-            System.out.println("Exiting program...");
-            System.exit(1);
         }
     }
 
