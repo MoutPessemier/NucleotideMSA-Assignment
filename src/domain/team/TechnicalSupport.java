@@ -1,6 +1,8 @@
 package domain.team;
 
-import domain.Alignment;
+import domain.alignment.Alignment;
+import domain.alignment.SNPAlignment;
+import domain.alignment.StandardAlignment;
 import repositories.AlignmentRepository;
 
 import java.io.BufferedWriter;
@@ -65,9 +67,10 @@ public class TechnicalSupport extends TeamMember {
      * Empties the current optimal alignment and each user's personal alignment
      */
     public void clearRepository(ArrayList<BioInformatician> team) {
-        alignmentRepository.setOptimalAlignment(new Alignment());
+        alignmentRepository.setOptimalStandardAlignment(new StandardAlignment());
+        alignmentRepository.setOptimalSNPAlignment(new SNPAlignment());
         team.forEach(bioInformatician -> {
-            bioInformatician.setPersonalAlignment(new Alignment());
+            bioInformatician.setPersonalAlignment(new StandardAlignment());
         });
     }
 

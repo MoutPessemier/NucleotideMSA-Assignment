@@ -1,17 +1,21 @@
 package repositories;
 
 import domain.Genome;
-import domain.Alignment;
+import domain.alignment.Alignment;
+import domain.alignment.SNPAlignment;
+import domain.alignment.StandardAlignment;
 
 import java.util.ArrayList;
 
 // Keeps track of the optimal alignment in both formats
 public class AlignmentRepository {
 
-    private Alignment optimalAlignment;
+    private StandardAlignment optimalStandardAlignment;
+    private SNPAlignment optimalSNPAlignment;
 
-    public AlignmentRepository(Alignment optimalAlignment) {
-        setOptimalAlignment(optimalAlignment);
+    public AlignmentRepository(StandardAlignment optimalAlignment, SNPAlignment optimalSNPAlignment) {
+        setOptimalStandardAlignment(optimalAlignment);
+        setOptimalSNPAlignment(optimalSNPAlignment);
     }
 
     /**
@@ -21,7 +25,7 @@ public class AlignmentRepository {
      * @param append   if the writer should append or overwrite
      */
     public void writeAlignmentToFile(String fileName, boolean append) {
-        optimalAlignment.writeAlignmentToFile(fileName, append);
+        optimalStandardAlignment.writeAlignmentToFile(fileName, append);
     }
 
     /**
@@ -32,7 +36,8 @@ public class AlignmentRepository {
      * @param stop     the stop delimiter
      */
     public void createAlignmentFromFile(String fileName, String start, String stop) {
-        optimalAlignment.createAlignmentFromFile(fileName, start, stop);
+        optimalStandardAlignment.createAlignmentFromFile(fileName, start, stop);
+        optimalSNPAlignment.createAlignmentFromFile(fileName, start, stop);
     }
 
     /**
@@ -41,15 +46,19 @@ public class AlignmentRepository {
      * @return a list of genome sequences
      */
     public ArrayList<Genome> getOptimalSequences() {
-        return optimalAlignment.getSequences();
+        return optimalStandardAlignment.getSequences();
     }
 
     /**
      * Sets the standard representation of the optimal alignment
      *
-     * @param optimalAlignment standard representation of optimal alignment
+     * @param optimalStandardAlignment standard representation of optimal alignment
      */
-    public void setOptimalAlignment(Alignment optimalAlignment) {
-        this.optimalAlignment = optimalAlignment;
+    public void setOptimalStandardAlignment(StandardAlignment optimalStandardAlignment) {
+        this.optimalStandardAlignment = optimalStandardAlignment;
+    }
+
+    public void setOptimalSNPAlignment(SNPAlignment optimalSNPAlignment) {
+        this.optimalSNPAlignment = optimalSNPAlignment;
     }
 }

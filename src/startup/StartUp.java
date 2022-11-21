@@ -1,7 +1,9 @@
 package startup;
 
-import domain.Alignment;
+import domain.alignment.Alignment;
 import domain.Genome;
+import domain.alignment.SNPAlignment;
+import domain.alignment.StandardAlignment;
 import domain.team.BioInformatician;
 import domain.team.TeamLeader;
 import domain.team.TechnicalSupport;
@@ -28,7 +30,8 @@ public class StartUp {
             System.exit(1);
         }
         // STEP 1.: Creating the starting alignments
-        Alignment startingAlignment = new Alignment();
+        StandardAlignment startingAlignment = new StandardAlignment();
+        SNPAlignment startingSNPAlignment = new SNPAlignment();
         // STEP 2.: Read in the fasta file
         try (BufferedReader reader = new BufferedReader(new FileReader("src/files/" + properties.getProperty("fastafilename")))) {
             // STEP 3.: Create genome object from the fasta file and add them to the alignment objects
@@ -49,6 +52,7 @@ public class StartUp {
             }
             // set the genomes in the starting alignments
             startingAlignment.setGenomes(genomes);
+            startingSNPAlignment.setGenomes(genomes);
         } catch (FileNotFoundException e) {
             System.out.println("Fasta file not found: " + e);
             System.out.println("Exiting program...");
@@ -60,11 +64,11 @@ public class StartUp {
         }
 
         // STEP 4.: Print the starting alignments by calling getRepresentation()
-        System.out.printf("The starting alignment in standard format is: %n%sIn SNP format %s%nWith a difference score of: %n%d%n%n%n",
-                startingAlignment.getRepresentation(), startingAlignment.getSNPRepresentation(), startingAlignment.calculateScore());
+        System.out.printf("The starting alignment in standard format is: %n%sWith a difference score of: %n%d%n%nIn SNP format %sWith a difference score of: %n%d%n%n%n",
+                startingAlignment.getRepresentation(), startingAlignment.calculateScore(), startingSNPAlignment.getRepresentation(), startingSNPAlignment.calculateScore());
 
         // STEP 5.: Create the repository to keep track of the optimal alignments
-        AlignmentRepository alignmentRepository = new AlignmentRepository(startingAlignment);
+        AlignmentRepository alignmentRepository = new AlignmentRepository(startingAlignment, startingSNPAlignment);
 
         // STEP 6.: Read in the team file
         ArrayList<BioInformatician> team = new ArrayList<>();
