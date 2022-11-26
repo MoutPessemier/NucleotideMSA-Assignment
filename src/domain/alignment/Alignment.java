@@ -25,7 +25,7 @@ public abstract class Alignment {
      * @param sequence a sequence of genome characters
      * @return a list of all identifiers
      */
-    public ArrayList<String> searchForGenome(String sequence) {
+    public ArrayList<String> searchForGenomes(String sequence) {
         ArrayList<String> identifiers = new ArrayList<>();
         genomes.forEach(genome -> {
             if (genome.getGenomeSequence().contains(sequence)) {

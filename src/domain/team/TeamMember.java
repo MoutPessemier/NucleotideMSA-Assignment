@@ -43,6 +43,14 @@ public abstract class TeamMember {
     }
 
     /**
+     * Gets the full name of the TeamMember
+     * @return the concatination of firstName and lastName
+     */
+    public String getName() {
+        return firstName + " " + lastName;
+    }
+
+    /**
      * A pleasing String representation of the class TeamMember
      *
      * @return the String representation of TeamMember

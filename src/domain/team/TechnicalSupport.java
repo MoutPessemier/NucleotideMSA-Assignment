@@ -1,6 +1,5 @@
 package domain.team;
 
-import domain.alignment.Alignment;
 import domain.alignment.SNPAlignment;
 import domain.alignment.StandardAlignment;
 import repositories.AlignmentRepository;
@@ -72,6 +71,15 @@ public class TechnicalSupport extends TeamMember {
         team.forEach(bioInformatician -> {
             bioInformatician.setPersonalAlignment(new StandardAlignment());
         });
+    }
+
+    /**
+     * Gets the date and time of when te last backup has been made
+     *
+     * @return when the last backup has been made
+     */
+    public LocalDateTime getLastBackup() {
+        return lastBackup;
     }
 
     /**

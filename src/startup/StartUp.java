@@ -12,10 +12,11 @@ import repositories.AlignmentRepository;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Properties;
+import java.util.Random;
 
 public class StartUp {
     public static void main(String[] args) {
-        // TODO: complete file
+        Random rm = new Random();
         // Step 0.: Read in the properties
         Properties properties = new Properties();
         try (InputStream inputStream = new FileInputStream("src/config.properties")) {
@@ -34,7 +35,7 @@ public class StartUp {
         SNPAlignment startingSNPAlignment = new SNPAlignment();
         // STEP 2.: Read in the fasta file
         try (BufferedReader reader = new BufferedReader(new FileReader("src/files/" + properties.getProperty("fastafilename")))) {
-            // STEP 3.: Create genome object from the fasta file and add them to the alignment objects
+            // STEP 3.: Create genome objects from the fasta file and add them to the alignment objects
             ArrayList<Genome> genomes = new ArrayList<>();
             // initial reading of the first id
             String line = reader.readLine();
@@ -114,20 +115,83 @@ public class StartUp {
         leaders.forEach(leader -> System.out.println(leader.toString()));
         team.forEach(bioInformatician -> System.out.println(bioInformatician.toString()));
         supports.forEach(support -> System.out.println(support.toString()));
+        System.out.println();
 
+        //TODO: make this less hard coded
 
-        /* POSSIBLE SCENARIOS TO SHOW:
-        let the bioinformaticians do their work
-        write best alignment to repo
-        update every/some bioinformatician's alignment to match repo alignment
-        backup repo
-        flush repo
-        restore repo
-        write away all scores (teamleader)
-        write away individual scores (bioinformaticians)
-        write away all reports (teamleader)
-        write away individual reports (bioinformaticians)
-        recalculate scores
-        */
+        // STEP 8.: Mac works on his alignment and calculates the score
+        BioInformatician b1 = team.get(0);
+        System.out.println("Changing all characters 'C' to 'T' for " + b1.getName());
+        System.out.println("Difference score:: " + b1.getPersonalAlignment().calculateScore());
+        b1.getPersonalAlignment().replaceAllCharacters('C', 'T');
+        System.out.println("Difference score after operation::" + b1.getPersonalAlignment().calculateScore());
+
+        // STEP 9.: Werner works on his alignment and calculates the score
+        BioInformatician b2 = team.get(1);
+        System.out.println("Find genomes with sequence 'GACAGACCAA' in the genome sequence.");
+        ArrayList<String> foundIdentifiers = b2.getPersonalAlignment().searchForGenomes("GACAGACCAA");
+        System.out.printf("The found genome%s:%n", foundIdentifiers.size() > 1 ? "s are" : " is");
+        foundIdentifiers.forEach(System.out::println);
+        System.out.println("Randomly picking one and replacing the genome sequence.");
+        System.out.println("The difference score of "+ b2.getName() +"'s alignment before operation:: " + b2.getPersonalAlignment().calculateScore());
+        int index = rm.nextInt(foundIdentifiers.size());
+        b2.getPersonalAlignment().replaceGenomeSequence(foundIdentifiers.get(index), "TTTCCTGGGGACAGACCAACGCTAAGGCCGCCCCATAAACCTGTCCGCGCGGAACGCAAATTAGCGCAGAACCACATGAGACCCAAGCATGCTTCAGACGTCCATAATGCAGGAGAGTCAGGCAGTCTGACATATTAGAAAACTACTTTTATCTTTGCGTAGCGTGCACAGTGAATAACATACCGTAAACAAATTGGAAGAAGGGCGTTTAGAAGCAGTATACCCCTGCTGATCCTCTACCCCTCAACAAGTCACGGATAACCGCGCGCTGGACTCCACTATCCGGCAGGAGGACCTACCGAAACCACGCTAGTATAGGTATAGTAGCAAAGCACGTACCGAACTGCCTAATTACGCCCAACGCCGCCCTATAAATGTAGTCCGATACCCCCGCGGGCCCCTACCGCCCTGACATACATTCTACTTTTTATCCTGATCCACCAACGAGCCGCAAACAGAGCTAAGGCAGTATCAGATTTCAAAAACCTGCCGCCAAGTAGTTGTCAATCCCCTGGGTGTAATTGGTCCCTTCACTGCTCTTGAATAACACTAAAACGCGTGCCGACCCGCCCCTGCGACACGAAACAGCTTCGACCCGCAATCAACACATTGCCTAACGAGCCGCCGGAAAAATTGAACACATGCCACGACAAATTGCGTCGAACCTCGAGTTAACACATCCCCACACGTCTGACAACGCCAATCGCGCGACCCACGCCGGAGCGACAATTGAACAAAAGTACGACCAGGGAGTTGCGGCAAGACCGTCCTCCGTACGCAAGGTGACATAGCCGATACCACAGAAATACTTCCTCATAGAGTAAAATTCAATATGGCGGCAACTGTTGCCGATATTGAGATTACGATGACGATACAATCTGACACGGATAGAGTGCCCCACAACGCAGCTACACAACCCAATATATTACCACGACAGAAATACTATTATCTCAAGTACGCCGACCTTCATCCCAAAGCGCTTCGGAGAAGGGTCACGCCATGGGTCCAAGAGTTCCACCCGCAATAGATGTGACAATGACCCAATATATCCAGTCTACACTGAAACCAGGCTAACCCGTTCAAATACCCGATGTGACTCTGCCCTGATTGAAGGGCGCGGGCCTACTTTGCAAGTATCGACAACACCGGACTCCGACAGGTACATTGCCAGAGCCAGTTGAGAATCCATGAAGTACACGGGTCCGGCGGTGCACCATAGCAATCGAACTAAATGGACCCCCAAAGGATTAGTCCTAACACTCATTACATCTGTTGATAGGGCGCATACAACCACCTGGCGGCTAATAAACATAAACGAAACAACTGCGCGGCCGCAAAGCCAAAGACTGAAGAGCAGAAAGGGCATAATACGTCGACGATGAGCGATCGCACCTCAGACTAGGCAAAAAACCACTATCATAAATCGAGTCCTGACAAGACCCTACCCGCTCGCGCAAACACTGTGAAGACATATAGGATATCTACAAAAGCACATTCCTCTTCACATACACCCACCAGGGTATCTCTTTCATACATACCATTTTCAGGCGCGGCCGGTACCGTAAATGTTCCCCTACGCTGCGAATCCTGCGTCCCCGGCGGGCCCCTCCTACAAATCGGACACACATATGACACCCGGTTCTAAGAGCTCTCCATAGGAAATGGAGCTACGTACCATCGGCTCGTCAACGGCTCTCACTGAACATAAGGCCGGATATTGAAGCTTGAGGTACCCCAGTTGCAGACCGACAATCATAGAATCAACACAGAACCTCTGACGAGGAATATAACGGCATGGCTGTAGCACTAGCATGTCCGCAGCATGCCTGCAGTAGGTCAAATACAATCATCAGGCCGCCGTTAGGCGCAAAGTCTGCAGGAACCCAAGCCAGTCCCTCGGGTAGACATCACTAGAATTTCCCCTCCTGCTATAAAAGTCGATCTGCAATTCCCGCTAGACCATCGAGCTAAACACTCGCCATGCAATAGTCTCCCACGCAATTCAAACTCAGCACTACGGGCCCCAACCCGACATCCCCGCTCGTCAGGCGCTTCGAGCGCTCCTAGCCTCGATTCCCAATGCAGGAGCCGGAGACAAACACATGATCGACAAAGCTTACTCCAAAACGATTCCTTCCACTGAACCGCGCCGCCAACTCGATTGCCAAAGCCGAACAGCTGGACAAAGCAGTAGTATAAACGGTGGCCAGCCTCAGTCACATCACTATCCTGTACCACCCCGCCTCTACAACATCGCCCGTCACTAATACCGCCCATCTACCGTCTAATTAGTCCACAAAATGACCGGCTGTGGACCCCTGTCACTCAGCTAAGCTCGTACGCCACGAAGCATGACCATCTAGACCAATGGTACGGCTCCCCCTGAGTTTTTTCCTCTTCCACCTTTCCGTTTAGCGGCTGGCCTCGATGCTACAAATATTATTATCAGCAGCTCTTATACCACCACTAGTAAATACCAACGGTATACAAGGCCGCCGGT");
+        System.out.println("Difference score after operation::" + b2.getPersonalAlignment().calculateScore());
+
+        // STEP 10.: Yves works on his alignment and calculates the score
+        BioInformatician b3 = team.get(3);
+        System.out.println("Find genome sequence with identifier: >1986.B.US.86.AD87");
+        Genome foundGenome = b3.getPersonalAlignment().findGenome(">1986.B.US.86.AD87");
+        if(foundGenome != null) {
+            System.out.println("The found genome:" + foundGenome.toString());
+            System.out.println("For this found genome, replace all occurrences of the character 'A' with 'G");
+            // This is a bit useless but to show off what my program can do, I'll still use the method
+            b3.getPersonalAlignment().replaceCharacterForGenome(foundGenome.getIdentifier(), 'A', 'G');
+        } else {
+            System.out.println("No genome found with that identifier!");
+        }
+        System.out.println("Removing genome with identifier >1993.C.IN.93.93IN101");
+        Genome removedGenome = b3.getPersonalAlignment().removeGenome(">1993.C.IN.93.93IN101");
+        if(removedGenome != null) {
+            System.out.println("The removed genome: " + removedGenome.toString());
+        }
+        System.out.println("Adding a new genome");
+        b3.getPersonalAlignment().addGenome(">1993.C.IN.93.93IN102", "TTTCTTGGGGACAGACCAACGCTGAGGCCACCCGATAAACCCGTCCGCGCGGGACCCAAATTAACGCAGCACCGCATGAGACCCAATAGTGCTTCAAACGTCCATACTGCAGGAGAGTCAGGCAGCCTGACATACTAAAAGCCTACATCTAGCTTTGCGTAGCGCGAACAGTCAATAACATACCGTAAACAGGTTGCAAGACGGGCGTTTAGAAGCAGTATACTCGTGTTGATCATCCACCCCTCAACAAATAACGGGCAACTGCGGGCTGGACTTCACCATCCGGCAAGAGGGCCTGCCGTAACGACGCTAGTATAGGTATCATAGCAAAGCACGTACTGGACAGCCTAATTGCGCCCAACGCCACCCTATAGACCTAGTCCGGTACCCCCGCGAGCCCCTACCGCCCTGGCATACATCTGAGTTTCTATCCTGGTCCACGAAGGAGCGGCACACAGAGCTAGGGCAGTAGCAGACTCCAAAAGCCCGGCGCCAAGTAGCAGTTCATCCCACGGGCGTAATAGGTTCCTTCTCGGCTCTCGAATAACACTAAAACGCGTGCTGACCCCGCCCCGCGACACGAAACAGCTTTAACCCGGCATAATCACACTGCCTAACGAGCCGCCGGAAAAATTGAACAAACGCCACAACAAATTGTGTCGAACCTCGAGCTCACACATCCTTACGCGTCCGACAGTGCCGATCGCGCGAACTACGCCATAGCGGCAATTAAGCAAATGTACGACCAGGGAGTTGCGGCAAGCCCGCCCTACATAAGCAATGTGAAACGGACAATACCAAAGATCTATTTCCTCATAGAACGAAATTTGATATGGCGGCAACTGTCGCCGATATCTACAATACGATGACGATATAATCTGACACGGATAGAGTGCCCCACAACGCAGCTCCACAACTCAATATATTACCACGACAGGGATACTACTACCTTAAGTAGGCCGACCTTTCTCGCAAAGCGCTTCGGAGAAAGGGCACGCCACGGATCCAAAAATTACGTCCGCCATGAATGTAACCACGACCCAATCTATCCAGTCTACACTGAAACCAGGCTAACCTGTTTTAATACTCGACGAGACTCTGCCCTGATCGAAAGACGTGGGCGCACTCTGTAGGTATCGACATCACTAGACTCCGACACGTAAGTTGCCAGAGTAAGTTGAGAACCCATGAAGTACCCGGGTCCGGCGGTGCACCATAGCGATCGAATTAAATGCACCCCAAGAGGATCAGTCCTAACACCCATTACATCCGTTGATAACGCGCACAAAACCATCTGGCGGCTAGAAAACATAGAGAAGACGAGTACGCGGCCGCAAAGCCAAGGAATGATGAGCAGAAAGGCCATAATACGTTGGCCACGAGCAATCGCACCCCAGGCGACGCTAGGAACCACTATCGTAAGTCGGGTTCTGACAAGACCCGACCCGCTCGCGAAAACACTATGAAAACACATAGGATATTTACAAAAGTACATTCCTCTTCGCCTACACCAACCAGAGTATATCCTTCATACACACGATGTTCAGGCGAGCCCGGTACCTTAGAGGTTCCCCTATGCTGCGAATTCTGCGTACCCAGCGGACTCCTCCTACAGATTGGATACACATATGACACCCGGTTCTAAGAGCCCTCCATAGAAAATGGAGCTACTCACTATTGGCTCGTCAACAGCTCTCACTGAACAAAAGGCCGGATATCGAAGCTTGAGGTACTCCAATAGCAACCTGACAACCATAGAATCGACGCAGCGCGTCCGACGAGGAATATCACGGCCTGGCGGTAGCACTAGCATGACCGCAGCATGACTGCAGTAGCTCAAATACTATCAACAGACCGCCGTCAGGCGCAAGTTCCGCAAGAACCCAAACTTGTCCCTAGGGTAGGCGTCAATAGAATTTCTCCTCCTGCTATAAAAATCGATCTGTAATTCCCGCTAGACCATCGAGCTAGACACTCGCGTTCCAATAGTGTCAGACGCAATTCAAACTCAGTACTACGAGCCCCAACCCGAAATACCCGCTTGTCAGGTGCTTTGACCGTTCCTAATCTCAATTCCCAATCCAGGAGCCGGAGACAAACCCATGCTCGACAAAAATTACTCCAAATCGATTCCTTCCACTGAACCCCGTCACCACCTCGATCATCAAAGGCGGACAGCTGGACAAAACAGTAGTTTAAGCGGTAGTCAGCCTCAATCACATTACTATCCTGTGCCACCCCGCCTCTACAGCATCGCCCGCCACCAATACCGCACATCTACAGCCTAACTAGTCCACGATATGATCGACTGTGGACACCTAGCAGCTAGCTAAGTTCGTACGCCACGCAGCACGACCATCTAAACCAATGGTACGGGTTCCCTTGCGTTTTGTCACCTCCCACCCTACCGTCTAGCGAATGGCCTCGCTGCTACGCATATAATTCTCGGCAACTCTCATTCCACCTCCAGTAAATACCTACTATATACAAACCCGCAGGG");
+        System.out.println("Difference score after these operations::" + b3.getPersonalAlignment().calculateScore());
+
+        // STEP 11.: Write away best alignment to repository
+        TeamLeader leader = leaders.get(0);
+        StandardAlignment bestAlignment = startingAlignment;
+        System.out.println("Calculating best alignment...");
+        for (BioInformatician bioInofrmatician : team) {
+            if (bestAlignment.calculateScore() < bioInofrmatician.getPersonalAlignment().calculateScore()) {
+                bestAlignment = bioInofrmatician.getPersonalAlignment();
+            }
+        }
+        System.out.println("Writing best alignment to repository");
+        leader.copyAlignmentToOptimalAlignment(bestAlignment);
+
+        // STEP 12.: Make a backup of the repository and show timestamp of latest backup made
+        TechnicalSupport support = supports.get(0);
+        if (support.getLastBackup() != null) {
+            System.out.println("The last backup was at " + support.getLastBackup().toString());
+        } else {
+            System.out.println("No backup has been made yet");
+        }
+        System.out.println("Backing up the repository");
+        support.backupRepository(team);
+        if (support.getLastBackup() != null) {
+            System.out.println("Backup successfully made at " + support.getLastBackup().toString());
+        } else {
+            System.out.println("Something went wrong when backing up, no backup has been made yet.");
+        }
+
+        // STEP 13.: Flushing the repository and showing that it's empty
+        // STEP 14.: Restoring the repository and the team's alignments
+        // STEP 15.: Updating each team member to match the best alignment
+        // STEP 16.: Write away the alignment of BioInformatician 1
+        // STEP 17.: Write away the alignment of TeamLeader 1
+        // STEP 18.: Write away the score of BioInformatician 2
+        // STEP 19.: Write away the score of TeamLeader 1
     }
 }

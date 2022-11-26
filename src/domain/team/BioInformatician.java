@@ -1,12 +1,16 @@
 package domain.team;
 
+import domain.Genome;
 import domain.alignment.Alignment;
+import domain.alignment.StandardAlignment;
+
+import java.util.ArrayList;
 
 public class BioInformatician extends TeamMember {
     // The bioinformatician's personal alignment
-    private Alignment personalAlignment;
+    private StandardAlignment personalAlignment;
 
-    public BioInformatician(String firstName, String lastName, int yearsOfExperience, Alignment personalAlignment) {
+    public BioInformatician(String firstName, String lastName, int yearsOfExperience, StandardAlignment personalAlignment) {
         super(firstName, lastName, yearsOfExperience);
         setPersonalAlignment(personalAlignment);
     }
@@ -30,7 +34,7 @@ public class BioInformatician extends TeamMember {
      *
      * @return the bioinformatician's alignment
      */
-    public Alignment getPersonalAlignment() {
+    public StandardAlignment getPersonalAlignment() {
         return personalAlignment;
     }
 
@@ -39,8 +43,12 @@ public class BioInformatician extends TeamMember {
      *
      * @param personalAlignment the alignment that becomes the personal alignment
      */
-    public void setPersonalAlignment(Alignment personalAlignment) {
-        this.personalAlignment = personalAlignment;
+    public void setPersonalAlignment(StandardAlignment personalAlignment) {
+        ArrayList<Genome> newList = new ArrayList<Genome>();
+        personalAlignment.getSequences().forEach(genome -> {
+            newList.add(new Genome(genome.getIdentifier(), genome.getGenomeSequence()));
+        });
+        this.personalAlignment = new StandardAlignment(newList);;
     }
 
     /**

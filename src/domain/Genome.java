@@ -47,4 +47,14 @@ public class Genome {
     public void setGenomeSequence(String genomeSequence) {
         this.genomeSequence = genomeSequence;
     }
+
+    /**
+     * Gives a nice representation of a Genome Object
+     *
+     * @return the string representation of this genome
+     */
+    @Override
+    public String toString() {
+        return "identifier: " + identifier + " and genome sequence: " + genomeSequence;
+    }
 }
