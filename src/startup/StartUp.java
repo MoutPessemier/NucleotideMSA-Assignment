@@ -227,8 +227,9 @@ public class StartUp {
 
         System.out.println("\n================================================\n");
 
-        /*// STEP 20.: Make a backup of the repository and show timestamp of latest backup made
-        TechnicalSupport support = supports.get(0);
+        // STEP 20.: Make a backup of the repository and show timestamp of latest backup made
+        // Same principle here, we want a support but don't want to hardcode it for the scenarios where others are available as well
+        TechnicalSupport support = supports.get(rm.nextInt(supports.size()));
         System.out.println(support.getName() + " starts managing the repository");
         if (support.getLastBackup() != null) {
             System.out.println("The last backup was at " + support.getLastBackup().toString());
@@ -245,7 +246,7 @@ public class StartUp {
 
         System.out.println("\n================================================\n");
 
-        // STEP 21.: Flushing the repository and showing that it's empty
+        /*// STEP 21.: Flushing the repository and showing that it's empty
         support.clearRepository(team);
 
         System.out.println("\n================================================\n");
