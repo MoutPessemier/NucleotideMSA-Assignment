@@ -15,8 +15,11 @@ import java.util.Random;
 
 public class StartUp {
     public static void main(String[] args) {
+        // STEP 0.: Declare needed variables
         Random rm = new Random();
-        // Step 0.: Read in the properties
+        int index;
+
+        // Step 1.: Read in the properties
         Properties properties = new Properties();
         try (InputStream inputStream = new FileInputStream("src/config.properties")) {
             properties.load(inputStream);
@@ -29,12 +32,12 @@ public class StartUp {
             System.out.println("Exiting program...");
             System.exit(1);
         }
-        // STEP 1.: Creating the starting alignments
+        // STEP 2.: Creating the starting alignments
         StandardAlignment startingAlignment = new StandardAlignment();
         SNPAlignment startingSNPAlignment = new SNPAlignment();
-        // STEP 2.: Read in the fasta file
+        // STEP 3.: Read in the fasta file
         try (BufferedReader reader = new BufferedReader(new FileReader("src/files/" + properties.getProperty("fastafilename")))) {
-            // STEP 3.: Create genome objects from the fasta file and add them to the alignment objects
+            // STEP 4.: Create genome objects from the fasta file and add them to the alignment objects
             ArrayList<Genome> genomes = new ArrayList<>();
             // initial reading of the first id
             String line = reader.readLine();
@@ -63,22 +66,22 @@ public class StartUp {
             System.exit(1);
         }
 
-        // STEP 4.: Print the starting alignments by calling getRepresentation()
+        // STEP 5.: Print the starting alignments by calling getRepresentation()
         System.out.printf("The starting alignment in standard format is: %n%sWith a difference score of: %n%d%n%nIn SNP format %sWith a difference score of: %n%d%n",
                 startingAlignment.getRepresentation(), startingAlignment.calculateScore(), startingSNPAlignment.getRepresentation(), startingSNPAlignment.calculateScore());
 
         System.out.println("\n================================================\n");
 
-        // STEP 5.: Create the repository to keep track of the optimal alignments
+        // STEP 6.: Create the repository to keep track of the optimal alignments
         AlignmentRepository alignmentRepository = new AlignmentRepository(startingAlignment, startingSNPAlignment);
 
-        // STEP 6.: Read in the team file
+        // STEP 7.: Read in the team file
         ArrayList<BioInformatician> team = new ArrayList<>();
         ArrayList<TeamLeader> leaders = new ArrayList<>();
         ArrayList<TechnicalSupport> supports = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader("src/files/" + properties.getProperty("teamfilename")))) {
             String line = reader.readLine();
-            // STEP 7.: Team creation
+            // STEP 8.: Team creation
             while (line != null) {
                 String[] lineComponents = line.split(" ");
                 switch (lineComponents[0]) {
@@ -111,7 +114,7 @@ public class StartUp {
             System.exit(1);
         }
 
-        // STEP 7.: Display the whole team
+        // STEP 9.: Display the whole team
         System.out.println("The team consists of: ");
         leaders.forEach(leader -> System.out.println(leader.toString()));
         team.forEach(bioInformatician -> System.out.println(bioInformatician.toString()));
@@ -120,9 +123,10 @@ public class StartUp {
 
         System.out.println("\n================================================\n");
 
-        //TODO: make this less hard coded or explain why this part is hard coded
+        //TODO: Make the bioinformaticians, leader and support who work less hard coded and able to work with different sized teams
+        // By generating a random index?
 
-        // STEP 8.: Mac works on his alignment and calculates the score
+        // STEP 10.: Mac works on his alignment and calculates the score
         BioInformatician b1 = team.get(0);
         System.out.println(b1.getName() + " starts working on his alignment");
         System.out.println("Difference score before operation:: " + b1.getPersonalAlignment().calculateScore() + "\n");
@@ -132,7 +136,7 @@ public class StartUp {
 
         System.out.println("\n================================================\n");
 
-        // STEP 9.: Werner works on his alignment and calculates the score
+        // STEP 11.: Werner works on his alignment and calculates the score
         BioInformatician b2 = team.get(1);
         System.out.println(b2.getName() + " starts working on his alignment");
         System.out.println("The difference score before operations:: " + b2.getPersonalAlignment().calculateScore() + "\n");
@@ -140,7 +144,7 @@ public class StartUp {
         ArrayList<String> foundIdentifiers = b2.getPersonalAlignment().searchForGenomes("GACAGACCAA");
         System.out.printf("The found genome%s:%n", foundIdentifiers.size() > 1 ? "s are" : " is");
         foundIdentifiers.forEach(System.out::println);
-        int index = rm.nextInt(foundIdentifiers.size());
+        index = rm.nextInt(foundIdentifiers.size());
         String randomId = foundIdentifiers.get(index);
         System.out.println("Randomly picking one and replacing the genome sequence: " + randomId);
         b2.getPersonalAlignment().replaceGenomeSequence(randomId, "TTTCCTGGGGACAGACCAACGCTAAGGCCGCCCCATAAACCTGTCCGCGCGGAACGCAAATTAGCGCAGAACCACATGAGACCCAAGCATGCTTCAGACGTCCATAATGCAGGAGAGTCAGGCAGTCTGACATATTAGAAAACTACTTTTATCTTTGCGTAGCGTGCACAGTGAATAACATACCGTAAACAAATTGGAAGAAGGGCGTTTAGAAGCAGTATACCCCTGCTGATCCTCTACCCCTCAACAAGTCACGGATAACCGCGCGCTGGACTCCACTATCCGGCAGGAGGACCTACCGAAACCACGCTAGTATAGGTATAGTAGCAAAGCACGTACCGAACTGCCTAATTACGCCCAACGCCGCCCTATAAATGTAGTCCGATACCCCCGCGGGCCCCTACCGCCCTGACATACATTCTACTTTTTATCCTGATCCACCAACGAGCCGCAAACAGAGCTAAGGCAGTATCAGATTTCAAAAACCTGCCGCCAAGTAGTTGTCAATCCCCTGGGTGTAATTGGTCCCTTCACTGCTCTTGAATAACACTAAAACGCGTGCCGACCCGCCCCTGCGACACGAAACAGCTTCGACCCGCAATCAACACATTGCCTAACGAGCCGCCGGAAAAATTGAACACATGCCACGACAAATTGCGTCGAACCTCGAGTTAACACATCCCCACACGTCTGACAACGCCAATCGCGCGACCCACGCCGGAGCGACAATTGAACAAAAGTACGACCAGGGAGTTGCGGCAAGACCGTCCTCCGTACGCAAGGTGACATAGCCGATACCACAGAAATACTTCCTCATAGAGTAAAATTCAATATGGCGGCAACTGTTGCCGATATTGAGATTACGATGACGATACAATCTGACACGGATAGAGTGCCCCACAACGCAGCTACACAACCCAATATATTACCACGACAGAAATACTATTATCTCAAGTACGCCGACCTTCATCCCAAAGCGCTTCGGAGAAGGGTCACGCCATGGGTCCAAGAGTTCCACCCGCAATAGATGTGACAATGACCCAATATATCCAGTCTACACTGAAACCAGGCTAACCCGTTCAAATACCCGATGTGACTCTGCCCTGATTGAAGGGCGCGGGCCTACTTTGCAAGTATCGACAACACCGGACTCCGACAGGTACATTGCCAGAGCCAGTTGAGAATCCATGAAGTACACGGGTCCGGCGGTGCACCATAGCAATCGAACTAAATGGACCCCCAAAGGATTAGTCCTAACACTCATTACATCTGTTGATAGGGCGCATACAACCACCTGGCGGCTAATAAACATAAACGAAACAACTGCGCGGCCGCAAAGCCAAAGACTGAAGAGCAGAAAGGGCATAATACGTCGACGATGAGCGATCGCACCTCAGACTAGGCAAAAAACCACTATCATAAATCGAGTCCTGACAAGACCCTACCCGCTCGCGCAAACACTGTGAAGACATATAGGATATCTACAAAAGCACATTCCTCTTCACATACACCCACCAGGGTATCTCTTTCATACATACCATTTTCAGGCGCGGCCGGTACCGTAAATGTTCCCCTACGCTGCGAATCCTGCGTCCCCGGCGGGCCCCTCCTACAAATCGGACACACATATGACACCCGGTTCTAAGAGCTCTCCATAGGAAATGGAGCTACGTACCATCGGCTCGTCAACGGCTCTCACTGAACATAAGGCCGGATATTGAAGCTTGAGGTACCCCAGTTGCAGACCGACAATCATAGAATCAACACAGAACCTCTGACGAGGAATATAACGGCATGGCTGTAGCACTAGCATGTCCGCAGCATGCCTGCAGTAGGTCAAATACAATCATCAGGCCGCCGTTAGGCGCAAAGTCTGCAGGAACCCAAGCCAGTCCCTCGGGTAGACATCACTAGAATTTCCCCTCCTGCTATAAAAGTCGATCTGCAATTCCCGCTAGACCATCGAGCTAAACACTCGCCATGCAATAGTCTCCCACGCAATTCAAACTCAGCACTACGGGCCCCAACCCGACATCCCCGCTCGTCAGGCGCTTCGAGCGCTCCTAGCCTCGATTCCCAATGCAGGAGCCGGAGACAAACACATGATCGACAAAGCTTACTCCAAAACGATTCCTTCCACTGAACCGCGCCGCCAACTCGATTGCCAAAGCCGAACAGCTGGACAAAGCAGTAGTATAAACGGTGGCCAGCCTCAGTCACATCACTATCCTGTACCACCCCGCCTCTACAACATCGCCCGTCACTAATACCGCCCATCTACCGTCTAATTAGTCCACAAAATGACCGGCTGTGGACCCCTGTCACTCAGCTAAGCTCGTACGCCACGAAGCATGACCATCTAGACCAATGGTACGGCTCCCCCTGAGTTTTTTCCTCTTCCACCTTTCCGTTTAGCGGCTGGCCTCGATGCTACAAATATTATTATCAGCAGCTCTTATACCACCACTAGTAAATACCAACGGTATACAAGGCCGCCGGT");
@@ -148,7 +152,7 @@ public class StartUp {
 
         System.out.println("\n================================================\n");
 
-        // STEP 10.: Yves works on his alignment and calculates the score
+        // STEP 12.: Yves works on his alignment and calculates the score
         BioInformatician b3 = team.get(2);
         System.out.println(b3.getName() + " starts working on his alignment");
         System.out.println("The difference score before operations:: " + b3.getPersonalAlignment().calculateScore() + "\n");
@@ -173,7 +177,7 @@ public class StartUp {
 
         System.out.println("\n================================================\n");
 
-        // STEP 11.: Write away best alignment to repository
+        // STEP 13.: Write away best alignment to repository
         TeamLeader leader = leaders.get(0);
         System.out.println(leader.getName() + " starts managing the team");
         StandardAlignment bestAlignment = startingAlignment;
@@ -191,7 +195,7 @@ public class StartUp {
 
         System.out.println("\n================================================\n");
 
-        // STEP 12.: Make a backup of the repository and show timestamp of latest backup made
+        // STEP 14.: Make a backup of the repository and show timestamp of latest backup made
         TechnicalSupport support = supports.get(0);
         if (support.getLastBackup() != null) {
             System.out.println("The last backup was at " + support.getLastBackup().toString());
@@ -206,12 +210,12 @@ public class StartUp {
             System.out.println("Something went wrong when backing up, no backup has been made yet.");
         }
 
-        // STEP 13.: Flushing the repository and showing that it's empty
-        // STEP 14.: Restoring the repository and the team's alignments
-        // STEP 15.: Updating each team member to match the best alignment
-        // STEP 16.: Write away the alignment of BioInformatician 1
-        // STEP 17.: Write away the alignment of TeamLeader 1
-        // STEP 18.: Write away the score of BioInformatician 2
-        // STEP 19.: Write away the score of TeamLeader 1
+        // STEP 15.: Flushing the repository and showing that it's empty
+        // STEP 16.: Restoring the repository and the team's alignments
+        // STEP 17.: Updating each team member to match the best alignment
+        // STEP 18.: Write away the alignment of BioInformatician 1
+        // STEP 19.: Write away the alignment of TeamLeader 1
+        // STEP 20.: Write away the score of BioInformatician 2
+        // STEP 21.: Write away the score of TeamLeader 1
     }
 }
