@@ -1,7 +1,6 @@
 package domain.team;
 
 import domain.Genome;
-import domain.alignment.Alignment;
 import domain.alignment.StandardAlignment;
 
 import java.util.ArrayList;
@@ -19,14 +18,14 @@ public class BioInformatician extends TeamMember {
      * Writes their personal alignment to an output file
      */
     public void writeDataToFile() {
-        personalAlignment.writeAlignmentToFile(firstName + lastName, false);
+        personalAlignment.writeAlignmentToFile(firstName + lastName + ".alignment.txt", false, "", "");
     }
 
     /**
      * Writes the difference score of the personal alignment to an output file
      */
     public void writeReportToFile() {
-        personalAlignment.writeDifferenceScoreToFile(firstName + lastName, false);
+        personalAlignment.writeDifferenceScoreToFile(firstName + lastName + ".score.txt", false);
     }
 
     /**
@@ -48,7 +47,8 @@ public class BioInformatician extends TeamMember {
         personalAlignment.getSequences().forEach(genome -> {
             newList.add(new Genome(genome.getIdentifier(), genome.getGenomeSequence()));
         });
-        this.personalAlignment = new StandardAlignment(newList);;
+        this.personalAlignment = new StandardAlignment(newList);
+        ;
     }
 
     /**

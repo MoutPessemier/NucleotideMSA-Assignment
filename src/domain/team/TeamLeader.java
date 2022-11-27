@@ -45,15 +45,15 @@ public class TeamLeader extends TeamMember {
      */
     public void writeDataToFile() {
         // The names of the TeamLeader are needed, not those of the bioinformatician
-        String fileName = this.firstName + this.lastName;
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("src/files/" + fileName + ".alignment.txt", true))) {
+        String fileName = this.firstName + this.lastName + ".alignment.txt";
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("src/files/" + fileName, true))) {
             team.forEach(bioInformatician -> {
                 try {
                     writer.write(bioInformatician.firstName + " " + bioInformatician.lastName + "\n");
                 } catch (IOException e) {
                     System.out.println("Error writing name to file: " + fileName);
                 }
-                bioInformatician.getPersonalAlignment().writeAlignmentToFile(fileName, true);
+                bioInformatician.getPersonalAlignment().writeAlignmentToFile(fileName, true, bioInformatician.firstName + " " + bioInformatician.lastName + "\n", "\n");
             });
         } catch (IOException e) {
             System.out.println("Something went wrong when writing alignments to the output file: " + e);
@@ -65,8 +65,8 @@ public class TeamLeader extends TeamMember {
      */
     public void writeReportToFile() {
         // The names of the TeamLeader are needed, not those of the bioinformatician
-        String fileName = this.firstName + this.lastName;
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("src/files/" + fileName + ".score.txt", true))) {
+        String fileName = this.firstName + this.lastName + ".score.txt";
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("src/files/" + fileName, true))) {
             team.forEach(bioInformatician -> {
                 try {
                     writer.write(bioInformatician.firstName + " " + bioInformatician.lastName + "\n");
@@ -99,6 +99,15 @@ public class TeamLeader extends TeamMember {
     public void overwriteAlignment(BioInformatician user) {
         StandardAlignment alignment = new StandardAlignment(alignmentRepository.getOptimalSequences());
         user.setPersonalAlignment(alignment);
+    }
+
+    /**
+     * Gets the difference score of the optimal alignment
+     *
+     * @return difference score of the optimal alignment
+     */
+    public int getOptimalDifferenceScore() {
+        return alignmentRepository.getOptimalDifferenceScore();
     }
 
     /**

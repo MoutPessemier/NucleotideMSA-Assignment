@@ -1,7 +1,6 @@
 package repositories;
 
 import domain.Genome;
-import domain.alignment.Alignment;
 import domain.alignment.SNPAlignment;
 import domain.alignment.StandardAlignment;
 
@@ -23,9 +22,11 @@ public class AlignmentRepository {
      *
      * @param fileName the name of the output file
      * @param append   if the writer should append or overwrite
+     * @param start    starting delimiter
+     * @param stop     stopping delimiter
      */
-    public void writeAlignmentToFile(String fileName, boolean append) {
-        optimalStandardAlignment.writeAlignmentToFile(fileName, append);
+    public void writeAlignmentToFile(String fileName, boolean append, String start, String stop) {
+        optimalStandardAlignment.writeAlignmentToFile(fileName, append, start, stop);
     }
 
     /**
@@ -50,14 +51,28 @@ public class AlignmentRepository {
     }
 
     /**
+     * Gets the difference score of the optimal alignment
+     *
+     * @return difference score of the optimal alignment
+     */
+    public int getOptimalDifferenceScore() {
+        return optimalStandardAlignment.calculateScore();
+    }
+
+    /**
      * Sets the standard representation of the optimal alignment
      *
-     * @param optimalStandardAlignment standard representation of optimal alignment
+     * @param optimalStandardAlignment standard representation of the optimal alignment
      */
     public void setOptimalStandardAlignment(StandardAlignment optimalStandardAlignment) {
         this.optimalStandardAlignment = optimalStandardAlignment;
     }
 
+    /**
+     * Sets the SNP representation of the optimal alignment
+     *
+     * @param optimalSNPAlignment SNP representation of the optimal alignment
+     */
     public void setOptimalSNPAlignment(SNPAlignment optimalSNPAlignment) {
         this.optimalSNPAlignment = optimalSNPAlignment;
     }

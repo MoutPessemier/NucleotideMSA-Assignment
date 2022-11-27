@@ -27,23 +27,10 @@ public class TechnicalSupport extends TeamMember {
      */
     public void backupRepository(ArrayList<BioInformatician> team) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("src/files/backup.txt"))) {
-            // indicate where this alignment starts
-            writer.write("Optimal Alignment");
-            writer.write(System.lineSeparator());
             // only write away 1 of the optimal alignments because they are the same anyway
-            alignmentRepository.writeAlignmentToFile("backup.txt", true);
-            // delimit where this alignment stops
-            writer.write("--stop optimal--");
-            writer.write(System.lineSeparator());
-            writer.write(System.lineSeparator());
+            alignmentRepository.writeAlignmentToFile("backup.txt", true, "Optimal Alignment", "--stop optimal--");
             team.forEach(bioInformatician -> {
-                try {
-                    writer.write(bioInformatician.firstName + " " + bioInformatician.lastName);
-                    bioInformatician.getPersonalAlignment().writeAlignmentToFile("backup.txt", true);
-                    writer.write("--stop " + bioInformatician.firstName + bioInformatician.lastName);
-                } catch (IOException e) {
-                    System.out.println("Something went wrong when backing up the alignment for " + bioInformatician.firstName + " " + bioInformatician.lastName + ": " + e);
-                }
+                bioInformatician.getPersonalAlignment().writeAlignmentToFile("backup.txt", true, bioInformatician.firstName + " " + bioInformatician.lastName, "--stop " + bioInformatician.firstName + " " + bioInformatician.lastName + "--");
             });
             setLastBackup(LocalDateTime.now());
         } catch (IOException e) {
@@ -58,7 +45,7 @@ public class TechnicalSupport extends TeamMember {
         alignmentRepository.createAlignmentFromFile("backup.txt", "Optimal Alignment", "--stop optimal--");
         team.forEach(bioInformatician -> {
             bioInformatician.getPersonalAlignment().createAlignmentFromFile("backup.txt", bioInformatician.firstName + " " + bioInformatician.lastName,
-                    "--stop " + bioInformatician.firstName + bioInformatician.lastName);
+                    "--stop " + bioInformatician.firstName + " " + bioInformatician.lastName + "--");
         });
     }
 

@@ -130,9 +130,14 @@ public abstract class Alignment {
      *
      * @param fileName the name of the output file
      * @param append   if the writer should append to the file or overwrite the file
+     * @param start    starting delimiter
+     * @param stop     stopping delimiter
      */
-    public void writeAlignmentToFile(String fileName, boolean append) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("src/files/" + fileName + ".alignment.txt", append))) {
+    public void writeAlignmentToFile(String fileName, boolean append, String start, String stop) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("src/files/" + fileName, append))) {
+            // indicate where this alignment starts
+            writer.write(start);
+            writer.write(System.lineSeparator());
             genomes.forEach(genome -> {
                 try {
                     writer.write(genome.getIdentifier());
@@ -143,6 +148,9 @@ public abstract class Alignment {
                     System.out.println("Error writing to file: " + fileName + " at identifier: " + genome.getIdentifier());
                 }
             });
+            // delimit where this alignment stops
+            writer.write(stop);
+            writer.write(System.lineSeparator());
         } catch (IOException e) {
             System.out.println("Something went wrong when writing to the output file: " + e);
         }
@@ -155,7 +163,7 @@ public abstract class Alignment {
      * @param append   if the writer should append to the file or overwrite the file
      */
     public void writeDifferenceScoreToFile(String fileName, boolean append) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("src/files/" + fileName + ".score.txt", append))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("src/files/" + fileName, append))) {
             writer.write("Difference score: " + calculateScore());
         } catch (IOException e) {
             System.out.println("Something went wrong when writing to the output file: " + e);
