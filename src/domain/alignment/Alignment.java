@@ -162,9 +162,10 @@ public abstract class Alignment {
      * @param fileName the name of the output file
      * @param append   if the writer should append to the file or overwrite the file
      */
-    public void writeDifferenceScoreToFile(String fileName, boolean append) {
+    public void writeDifferenceScoreToFile(String fileName, boolean append, String name) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("src/files/" + fileName, append))) {
-            writer.write("Difference score: " + calculateScore());
+            writer.write(name + "\n");
+            writer.write("Difference score: " + calculateScore() + "\n\n");
         } catch (IOException e) {
             System.out.println("Something went wrong when writing to the output file: " + e);
         }

@@ -25,7 +25,7 @@ public class BioInformatician extends TeamMember {
      * Writes the difference score of the personal alignment to an output file
      */
     public void writeReportToFile() {
-        personalAlignment.writeDifferenceScoreToFile(firstName + lastName + ".score.txt", false);
+        personalAlignment.writeDifferenceScoreToFile(firstName + lastName + ".score.txt", false, "");
     }
 
     /**

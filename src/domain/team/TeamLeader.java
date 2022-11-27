@@ -5,9 +5,6 @@ import domain.alignment.SNPAlignment;
 import domain.alignment.StandardAlignment;
 import repositories.AlignmentRepository;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class TeamLeader extends TeamMember {
@@ -46,18 +43,9 @@ public class TeamLeader extends TeamMember {
     public void writeDataToFile() {
         // The names of the TeamLeader are needed, not those of the bioinformatician
         String fileName = this.firstName + this.lastName + ".alignment.txt";
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("src/files/" + fileName, true))) {
-            team.forEach(bioInformatician -> {
-                try {
-                    writer.write(bioInformatician.firstName + " " + bioInformatician.lastName + "\n");
-                } catch (IOException e) {
-                    System.out.println("Error writing name to file: " + fileName);
-                }
-                bioInformatician.getPersonalAlignment().writeAlignmentToFile(fileName, true, bioInformatician.firstName + " " + bioInformatician.lastName + "\n", "\n");
-            });
-        } catch (IOException e) {
-            System.out.println("Something went wrong when writing alignments to the output file: " + e);
-        }
+        team.forEach(bioInformatician -> {
+            bioInformatician.getPersonalAlignment().writeAlignmentToFile(fileName, true, bioInformatician.getName(), "");
+        });
     }
 
     /**
@@ -66,18 +54,10 @@ public class TeamLeader extends TeamMember {
     public void writeReportToFile() {
         // The names of the TeamLeader are needed, not those of the bioinformatician
         String fileName = this.firstName + this.lastName + ".score.txt";
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("src/files/" + fileName, true))) {
-            team.forEach(bioInformatician -> {
-                try {
-                    writer.write(bioInformatician.firstName + " " + bioInformatician.lastName + "\n");
-                } catch (IOException e) {
-                    System.out.println("Error writing name to file: " + fileName);
-                }
-                bioInformatician.getPersonalAlignment().writeDifferenceScoreToFile(fileName, true);
-            });
-        } catch (IOException e) {
-            System.out.println("Something went wrong when writing difference scores to the output file: " + e);
-        }
+        team.forEach(bioInformatician -> {
+            bioInformatician.getPersonalAlignment().writeDifferenceScoreToFile(fileName, true, bioInformatician.getName());
+        });
+
 
     }
 
