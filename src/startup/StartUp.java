@@ -246,12 +246,13 @@ public class StartUp {
 
         System.out.println("\n================================================\n");
 
-        /*// STEP 21.: Flushing the repository and showing that it's empty
+        // STEP 21.: Flushing the repository and showing that it's empty
+        System.out.println(support.getName() + " clears the repository and the team member alignments");
         support.clearRepository(team);
-
+        team.forEach(bioInformatician -> System.out.printf("%s has an alignment with %d sequences%n", bioInformatician.getName(), bioInformatician.getPersonalAlignment().getSequences().size()));
+        System.out.println("The difference score for the empty alignment in the repository is:: " + leader.getOptimalDifferenceScore());
         System.out.println("\n================================================\n");
 
         // STEP 22.: Restoring the repository and the team's alignments
-        */
     }
 }
