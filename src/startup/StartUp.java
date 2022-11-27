@@ -249,10 +249,15 @@ public class StartUp {
         // STEP 21.: Flushing the repository and showing that it's empty
         System.out.println(support.getName() + " clears the repository and the team member alignments");
         support.clearRepository(team);
-        team.forEach(bioInformatician -> System.out.printf("%s has an alignment with %d sequences%n", bioInformatician.getName(), bioInformatician.getPersonalAlignment().getSequences().size()));
+        team.forEach(bioInformatician -> System.out.printf("%s has an alignment with %d sequences and a difference score of %d%n", bioInformatician.getName(), bioInformatician.getPersonalAlignment().getSequences().size(), bioInformatician.getPersonalAlignment().calculateScore()));
         System.out.println("The difference score for the empty alignment in the repository is:: " + leader.getOptimalDifferenceScore());
+
         System.out.println("\n================================================\n");
 
         // STEP 22.: Restoring the repository and the team's alignments
+        System.out.println(support.getName() + " restores the repository and the alignments of the team members");
+        support.reinstateBackup(team);
+        team.forEach(bioInformatician -> System.out.printf("%s has an alignment with %d sequences and a difference score of %d%n", bioInformatician.getName(), bioInformatician.getPersonalAlignment().getSequences().size(), bioInformatician.getPersonalAlignment().calculateScore()));
+        System.out.println("The difference score for the empty alignment in the repository is:: " + leader.getOptimalDifferenceScore());
     }
 }

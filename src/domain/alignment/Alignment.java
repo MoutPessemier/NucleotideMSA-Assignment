@@ -179,7 +179,7 @@ public abstract class Alignment {
      * @param stop     the stop delimiter
      */
     public void createAlignmentFromFile(String fileName, String start, String stop) {
-        try (BufferedReader reader = new BufferedReader(new FileReader("src/file/" + fileName))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader("src/files/" + fileName))) {
             ArrayList<Genome> genomes = new ArrayList<>();
             String alignmentName = reader.readLine();
             while (!alignmentName.equals(start)) {
