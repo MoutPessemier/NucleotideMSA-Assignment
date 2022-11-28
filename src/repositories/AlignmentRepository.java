@@ -1,10 +1,8 @@
 package repositories;
 
-import domain.Genome;
 import domain.alignment.SNPAlignment;
 import domain.alignment.StandardAlignment;
-
-import java.util.ArrayList;
+import domain.team.BioInformatician;
 
 // Keeps track of the optimal alignment in both formats
 public class AlignmentRepository {
@@ -42,12 +40,12 @@ public class AlignmentRepository {
     }
 
     /**
-     * Gets the optimal alignment's genome sequences
+     * Overwrites the user's personal alignment with the optimal alignment
      *
-     * @return a list of genome sequences
+     * @param user the user whose personal alignment gets overridden
      */
-    public ArrayList<Genome> getOptimalSequences() {
-        return optimalStandardAlignment.getSequences();
+    public void overwriteAlignmentForUser(BioInformatician user) {
+        user.setPersonalAlignment(new StandardAlignment(optimalStandardAlignment.getSequences()));
     }
 
     /**

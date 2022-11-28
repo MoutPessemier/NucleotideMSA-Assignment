@@ -129,8 +129,8 @@ public class StartUp {
         // STEP 11.: A BioInformatician works on his alignment and calculates the score
         System.out.println(b.getName() + " starts working on his alignment");
         System.out.println("Difference score before operation:: " + b.getPersonalAlignment().calculateScore() + "\n");
-        System.out.println("Changing character 'T' to 'C' for all alignments.");
-        b.getPersonalAlignment().replaceAllCharacters('T', 'C');
+        System.out.println("Changing sequence 'TACCG' to 'GTCCA' for all alignments.");
+        b.getPersonalAlignment().replaceAllSequences("TACCG", "GTCCA");
         System.out.println("\nDifference score after operation:: " + b.getPersonalAlignment().calculateScore());
 
         System.out.println("\n================================================\n");
@@ -171,9 +171,9 @@ public class StartUp {
         Genome foundGenome = b.getPersonalAlignment().findGenome(">1986.B.US.86.AD87");
         if (foundGenome != null) {
             System.out.println("The found genome: " + foundGenome.toString());
-            System.out.println("For this found genome, replace all occurrences of the character 'A' with 'G");
+            System.out.println("For this found genome, replace all occurrences of the sequence 'AGT' with 'ATC");
             // This is a bit useless but to show off what my program can do, I'll still use the method
-            b.getPersonalAlignment().replaceCharacterForGenome(foundGenome.getIdentifier(), 'A', 'G');
+            b.getPersonalAlignment().replaceSequenceForGenome(foundGenome.getIdentifier(), "AGT", "ATC");
         } else {
             System.out.println("No genome found with that identifier!");
         }
@@ -258,6 +258,6 @@ public class StartUp {
         System.out.println(support.getName() + " restores the repository and the alignments of the team members");
         support.reinstateBackup(team);
         team.forEach(bioInformatician -> System.out.printf("%s has an alignment with %d sequences and a difference score of %d%n", bioInformatician.getName(), bioInformatician.getPersonalAlignment().getSequences().size(), bioInformatician.getPersonalAlignment().calculateScore()));
-        System.out.println("The difference score for the empty alignment in the repository is:: " + leader.getOptimalDifferenceScore());
+        System.out.println("The difference score for the optimal alignment in the repository is:: " + leader.getOptimalDifferenceScore());
     }
 }

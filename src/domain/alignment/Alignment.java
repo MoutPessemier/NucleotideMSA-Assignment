@@ -57,7 +57,11 @@ public abstract class Alignment {
     public void replaceGenomeSequence(String identifier, String sequence) {
         genomes.forEach(genome -> {
             if (genome.getIdentifier().equals(identifier)) {
-                genome.setGenomeSequence(sequence);
+                if (genome.getGenomeSequence().length() == sequence.length()) {
+                    genome.setGenomeSequence(sequence);
+                } else {
+                    System.out.println("Sequence length does not match, skipping replacement.");
+                }
             }
         });
     }
@@ -65,23 +69,31 @@ public abstract class Alignment {
     /**
      * Replaces all occurrences of a character with a new character for a specific genome
      *
-     * @param identifier         a genome identifier
-     * @param characterToReplace the character to be replaced in the sequence
-     * @param newCharacter       the character that will replace the old character in the sequence
+     * @param identifier        a genome identifier
+     * @param sequenceToReplace the sequence of characters to be replaced in the genome sequence
+     * @param newSequence       the sequence of characters that will replace the old sequence in the genome sequence
      */
-    public void replaceCharacterForGenome(String identifier, char characterToReplace, char newCharacter) {
-        Optional<Genome> foundGenome = genomes.stream().filter(genome -> genome.getIdentifier().equals(identifier)).findFirst();
-        foundGenome.ifPresent(genome -> genome.setGenomeSequence(genome.getGenomeSequence().replaceAll(Character.toString(characterToReplace), Character.toString(newCharacter))));
+    public void replaceSequenceForGenome(String identifier, String sequenceToReplace, String newSequence) {
+        if (sequenceToReplace.length() == newSequence.length()) {
+            Optional<Genome> foundGenome = genomes.stream().filter(genome -> genome.getIdentifier().equals(identifier)).findFirst();
+            foundGenome.ifPresent(genome -> genome.setGenomeSequence(genome.getGenomeSequence().replaceAll(sequenceToReplace, newSequence)));
+        } else {
+            System.out.println("Sequence length does not match, skipping replacement.");
+        }
     }
 
     /**
      * Replaces all occurrences of a character in the alignment with a new character
      *
-     * @param characterToReplace the character to be replaced in the sequence
-     * @param newCharacter       the character that will replace the old character in the sequence
+     * @param sequenceToReplace the sequence of characters to be replaced in the genome sequence
+     * @param newSequence       the sequence of characters that will replace the old sequence in the genome sequence
      */
-    public void replaceAllCharacters(char characterToReplace, char newCharacter) {
-        genomes.forEach(genome -> genome.setGenomeSequence(genome.getGenomeSequence().replaceAll(Character.toString(characterToReplace), Character.toString(newCharacter))));
+    public void replaceAllSequences(String sequenceToReplace, String newSequence) {
+        if (sequenceToReplace.length() == newSequence.length()) {
+            genomes.forEach(genome -> genome.setGenomeSequence(genome.getGenomeSequence().replaceAll(sequenceToReplace, newSequence)));
+        } else {
+            System.out.println("Sequence length does not match, skipping replacement.");
+        }
     }
 
     /**

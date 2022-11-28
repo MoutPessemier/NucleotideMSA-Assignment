@@ -77,8 +77,7 @@ public class TeamLeader extends TeamMember {
      * @param user the user for which the alignment needs to be overwritten
      */
     public void overwriteAlignment(BioInformatician user) {
-        StandardAlignment alignment = new StandardAlignment(alignmentRepository.getOptimalSequences());
-        user.setPersonalAlignment(alignment);
+        alignmentRepository.overwriteAlignmentForUser(user);
     }
 
     /**
