@@ -50,7 +50,7 @@ public class SNPAlignment extends Alignment {
         for (String line : getRepresentation().split("\n")) {
             if (!line.equals("") && !line.startsWith(">")) {
                 for (String character : line.split("")) {
-                    if (!character.equals(".")) {
+                    if (!character.equals(".") && !character.equals("\r")) {
                         score++;
                     }
                 }

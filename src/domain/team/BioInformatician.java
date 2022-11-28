@@ -18,14 +18,14 @@ public class BioInformatician extends TeamMember {
      * Writes their personal alignment to an output file
      */
     public void writeDataToFile() {
-        personalAlignment.writeAlignmentToFile(firstName + lastName + ".alignment.txt", false, "", "");
+        personalAlignment.writeAlignmentToFile(firstName + lastName + ".alignment.txt", false, getName(), "");
     }
 
     /**
      * Writes the difference score of the personal alignment to an output file
      */
     public void writeReportToFile() {
-        personalAlignment.writeDifferenceScoreToFile(firstName + lastName + ".score.txt", false, "");
+        personalAlignment.writeDifferenceScoreToFile(firstName + lastName + ".score.txt", false, getName());
     }
 
     /**
