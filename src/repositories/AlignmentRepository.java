@@ -4,11 +4,17 @@ import domain.alignment.SNPAlignment;
 import domain.alignment.StandardAlignment;
 import domain.team.BioInformatician;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+
 // Keeps track of the optimal alignment in both formats
 public class AlignmentRepository {
 
     private StandardAlignment optimalStandardAlignment;
     private SNPAlignment optimalSNPAlignment;
+    private ArrayList<BioInformatician> team;
 
     public AlignmentRepository(StandardAlignment optimalAlignment, SNPAlignment optimalSNPAlignment) {
         setOptimalStandardAlignment(optimalAlignment);
@@ -16,27 +22,40 @@ public class AlignmentRepository {
     }
 
     /**
-     * Writes alignment away to file
-     *
-     * @param fileName the name of the output file
-     * @param append   if the writer should append or overwrite
-     * @param start    starting delimiter
-     * @param stop     stopping delimiter
+     * Backs up all user alignments and the optimal alignment
      */
-    public void writeAlignmentToFile(String fileName, boolean append, String start, String stop) {
-        optimalStandardAlignment.writeAlignmentToFile(fileName, append, start, stop);
+    public void backupRepository() {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("src" + System.getProperty("file.separator") + "files" + System.getProperty("file.separator") + "backup.txt"))) {
+            // only write away 1 of the optimal alignments because they are the same anyway
+            optimalStandardAlignment.writeAlignmentToFile("backup.txt", true, "Optimal Alignment", "--stop optimal--");
+            team.forEach(bioInformatician -> {
+                bioInformatician.writeAlignmentToFile("backup.txt", true, bioInformatician.getName(), "--stop " + bioInformatician.getName() + "--");
+            });
+        } catch (IOException e) {
+            System.out.println("Something went wrong when writing to the backup file: " + e);
+        }
     }
 
     /**
-     * Creates an alignment from an input file
-     *
-     * @param fileName the name of the input file
-     * @param start    the start delimiter
-     * @param stop     the stop delimiter
+     * Restores a previous backup by overwriting the current optimal alignment and all the user's personal alignments
      */
-    public void createAlignmentFromFile(String fileName, String start, String stop) {
-        optimalStandardAlignment.createAlignmentFromFile(fileName, start, stop);
-        optimalSNPAlignment.createAlignmentFromFile(fileName, start, stop);
+    public void reinstateBackup() {
+        optimalStandardAlignment.createAlignmentFromFile("backup.txt", "Optimal Alignment", "--stop optimal--");
+        team.forEach(bioInformatician -> {
+            bioInformatician.createAlignmentFromFile("backup.txt", bioInformatician.getName(),
+                    "--stop " + bioInformatician.getName() + "--");
+        });
+    }
+
+    /**
+     * Empties the current optimal alignment and each user's personal alignment
+     */
+    public void clearRepository() {
+        setOptimalStandardAlignment(new StandardAlignment());
+        setOptimalSNPAlignment(new SNPAlignment());
+        team.forEach(bioInformatician -> {
+            bioInformatician.setPersonalAlignment(new StandardAlignment());
+        });
     }
 
     /**
@@ -73,5 +92,14 @@ public class AlignmentRepository {
      */
     public void setOptimalSNPAlignment(SNPAlignment optimalSNPAlignment) {
         this.optimalSNPAlignment = optimalSNPAlignment;
+    }
+
+    /**
+     * Sets the team
+     *
+     * @param team the team of BioInformaticians
+     */
+    public void setTeam(ArrayList<BioInformatician> team) {
+        this.team = team;
     }
 }

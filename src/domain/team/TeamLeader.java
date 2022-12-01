@@ -57,8 +57,6 @@ public class TeamLeader extends TeamMember {
         team.forEach(bioInformatician -> {
             bioInformatician.writeDifferenceScoreToFile(fileName, true, bioInformatician.getName());
         });
-
-
     }
 
     /**

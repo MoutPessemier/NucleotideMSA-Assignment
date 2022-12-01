@@ -114,6 +114,7 @@ public class StartUp {
             System.out.println("Exiting program...");
             System.exit(1);
         }
+        alignmentRepository.setTeam(team);
 
         // STEP 9.: Display the whole team
         System.out.println("The team consists of: ");
@@ -216,7 +217,7 @@ public class StartUp {
         System.out.println(leader.getName() + " updates the alignments for all his team members to match the optimal alignment");
         team.forEach(leader::overwriteAlignment);
 
-        team.forEach(bioInformatician -> System.out.printf("%s has now a difference score of %d%n", bioInformatician.getName(), bioInformatician.getPersonalAlignment().calculateScore()));
+        team.forEach(bioInformatician -> System.out.printf("%s has now a difference score of %d%n", bioInformatician.getName(), bioInformatician.calculateScore()));
 
         System.out.println("\n================================================\n");
 
@@ -230,7 +231,7 @@ public class StartUp {
             System.out.println("No backup has been made yet");
         }
         System.out.println("Backing up the repository");
-        support.backupRepository(team);
+        support.backupRepository();
         if (support.getLastBackup() != null) {
             System.out.println("Backup successfully made at " + support.getLastBackup().toString());
         } else {
@@ -241,16 +242,16 @@ public class StartUp {
 
         // STEP 21.: Flushing the repository and showing that it's empty
         System.out.println(support.getName() + " clears the repository and the team member alignments");
-        support.clearRepository(team);
-        team.forEach(bioInformatician -> System.out.printf("%s has an alignment with %d sequences and a difference score of %d%n", bioInformatician.getName(), bioInformatician.getPersonalAlignment().getSequences().size(), bioInformatician.getPersonalAlignment().calculateScore()));
+        support.clearRepository();
+        team.forEach(bioInformatician -> System.out.printf("%s has an alignment with %d sequences and a difference score of %d%n", bioInformatician.getName(), bioInformatician.getPersonalAlignment().getSequences().size(), bioInformatician.calculateScore()));
         System.out.println("The difference score for the empty alignment in the repository is:: " + leader.getOptimalDifferenceScore());
 
         System.out.println("\n================================================\n");
 
         // STEP 22.: Restoring the repository and the team's alignments
         System.out.println(support.getName() + " restores the repository and the alignments of the team members");
-        support.reinstateBackup(team);
-        team.forEach(bioInformatician -> System.out.printf("%s has an alignment with %d sequences and a difference score of %d%n", bioInformatician.getName(), bioInformatician.getPersonalAlignment().getSequences().size(), bioInformatician.getPersonalAlignment().calculateScore()));
+        support.reinstateBackup();
+        team.forEach(bioInformatician -> System.out.printf("%s has an alignment with %d sequences and a difference score of %d%n", bioInformatician.getName(), bioInformatician.getPersonalAlignment().getSequences().size(), bioInformatician.calculateScore()));
         System.out.println("The difference score for the optimal alignment in the repository is:: " + leader.getOptimalDifferenceScore());
     }
 }

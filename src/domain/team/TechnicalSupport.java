@@ -16,7 +16,6 @@ public class TechnicalSupport extends TeamMember {
     // The AlignmentRepository on which the TechnicalSupport needs to work
     private AlignmentRepository alignmentRepository;
 
-
     public TechnicalSupport(String firstName, String lastName, int yearsOfExperience, AlignmentRepository alignmentRepository) {
         super(firstName, lastName, yearsOfExperience);
         setAlignmentRepository(alignmentRepository);
@@ -25,39 +24,23 @@ public class TechnicalSupport extends TeamMember {
     /**
      * Backs up all user alignments and the optimal alignment
      */
-    public void backupRepository(ArrayList<BioInformatician> team) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("src" + System.getProperty("file.separator") + "files" + System.getProperty("file.separator") + "backup.txt"))) {
-            // only write away 1 of the optimal alignments because they are the same anyway
-            alignmentRepository.writeAlignmentToFile("backup.txt", true, "Optimal Alignment", "--stop optimal--");
-            team.forEach(bioInformatician -> {
-                bioInformatician.writeAlignmentToFile("backup.txt", true, bioInformatician.getName(), "--stop " + bioInformatician.getName() + "--");
-            });
-            setLastBackup(LocalDateTime.now());
-        } catch (IOException e) {
-            System.out.println("Something went wrong when writing to the backup file: " + e);
-        }
+    public void backupRepository() {
+        alignmentRepository.backupRepository();
+        setLastBackup(LocalDateTime.now());
     }
 
     /**
      * Restores a previous backup by overwriting the current optimal alignment and all the user's personal alignments
      */
-    public void reinstateBackup(ArrayList<BioInformatician> team) {
-        alignmentRepository.createAlignmentFromFile("backup.txt", "Optimal Alignment", "--stop optimal--");
-        team.forEach(bioInformatician -> {
-            bioInformatician.createAlignmentFromFile("backup.txt", bioInformatician.getName(),
-                    "--stop " + bioInformatician.getName() + "--");
-        });
+    public void reinstateBackup() {
+        alignmentRepository.reinstateBackup();
     }
 
     /**
      * Empties the current optimal alignment and each user's personal alignment
      */
-    public void clearRepository(ArrayList<BioInformatician> team) {
-        alignmentRepository.setOptimalStandardAlignment(new StandardAlignment());
-        alignmentRepository.setOptimalSNPAlignment(new SNPAlignment());
-        team.forEach(bioInformatician -> {
-            bioInformatician.setPersonalAlignment(new StandardAlignment());
-        });
+    public void clearRepository() {
+        alignmentRepository.clearRepository();
     }
 
     /**
