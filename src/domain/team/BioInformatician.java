@@ -29,6 +29,86 @@ public class BioInformatician extends TeamMember {
     }
 
     /**
+     * Searches the alignment for all genomes that contain a given sequence
+     *
+     * @param sequence a sequence of genome characters
+     * @return a list of all identifiers
+     */
+    public ArrayList<String> searchForGenomes(String sequence) {
+        return personalAlignment.searchForGenomes(sequence);
+    }
+
+    /**
+     * Searches the alignment for a specific genome using it's identifier
+     *
+     * @param identifier a genome identifier
+     * @return a specific genome or null
+     */
+    public Genome findGenome(String identifier) {
+        return personalAlignment.findGenome(identifier);
+    }
+
+    /**
+     * Replaces a genome sequence of a genome with a given identifier, with a new genome sequence
+     *
+     * @param identifier a genome identifier
+     * @param sequence   a replacement sequence
+     */
+    public void replaceGenomeSequence(String identifier, String sequence) {
+        personalAlignment.replaceGenomeSequence(identifier, sequence);
+    }
+
+    /**
+     * Replaces all occurrences of a character with a new character for a specific genome
+     *
+     * @param identifier        a genome identifier
+     * @param sequenceToReplace the sequence of characters to be replaced in the genome sequence
+     * @param newSequence       the sequence of characters that will replace the old sequence in the genome sequence
+     */
+    public void replaceSequenceForGenome(String identifier, String sequenceToReplace, String newSequence) {
+        personalAlignment.replaceSequenceForGenome(identifier, sequenceToReplace, newSequence);
+    }
+
+    /**
+     * Replaces all occurrences of a character in the alignment with a new character
+     *
+     * @param sequenceToReplace the sequence of characters to be replaced in the genome sequence
+     * @param newSequence       the sequence of characters that will replace the old sequence in the genome sequence
+     */
+    public void replaceAllSequences(String sequenceToReplace, String newSequence) {
+        personalAlignment.replaceAllSequences(sequenceToReplace, newSequence);
+    }
+
+    /**
+     * Adds a genome to the alignment
+     *
+     * @param identifier     a genome identifier
+     * @param genomeSequence a genome sequence
+     */
+    public void addGenome(String identifier, String genomeSequence) {
+        personalAlignment.addGenome(identifier, genomeSequence);
+    }
+
+    /**
+     * Removes a genome form the alignment
+     *
+     * @param identifier a genome identifier
+     * @return the removed genome
+     */
+    public Genome removeGenome(String identifier) {
+        return personalAlignment.removeGenome(identifier);
+    }
+
+    /**
+     * Calculates the difference score for the alignment
+     *
+     * @return the difference score
+     */
+    public int calculateScore() {
+        return personalAlignment.calculateScore();
+    }
+
+    /**
      * Gets this bioinformatician's alignment
      *
      * @return the bioinformatician's alignment
@@ -48,7 +128,6 @@ public class BioInformatician extends TeamMember {
             newList.add(new Genome(genome.getIdentifier(), genome.getGenomeSequence()));
         });
         this.personalAlignment = new StandardAlignment(newList);
-        ;
     }
 
     /**
