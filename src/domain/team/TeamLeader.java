@@ -44,7 +44,7 @@ public class TeamLeader extends TeamMember {
         // The names of the TeamLeader are needed, not those of the bioinformatician
         String fileName = this.firstName + this.lastName + ".alignment.txt";
         team.forEach(bioInformatician -> {
-            bioInformatician.getPersonalAlignment().writeAlignmentToFile(fileName, true, bioInformatician.getName(), "");
+            bioInformatician.writeAlignmentToFile(fileName, true, bioInformatician.getName(), "");
         });
     }
 
@@ -55,7 +55,7 @@ public class TeamLeader extends TeamMember {
         // The names of the TeamLeader are needed, not those of the bioinformatician
         String fileName = this.firstName + this.lastName + ".score.txt";
         team.forEach(bioInformatician -> {
-            bioInformatician.getPersonalAlignment().writeDifferenceScoreToFile(fileName, true, bioInformatician.getName());
+            bioInformatician.writeDifferenceScoreToFile(fileName, true, bioInformatician.getName());
         });
 
 

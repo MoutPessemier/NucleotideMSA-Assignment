@@ -30,7 +30,7 @@ public class TechnicalSupport extends TeamMember {
             // only write away 1 of the optimal alignments because they are the same anyway
             alignmentRepository.writeAlignmentToFile("backup.txt", true, "Optimal Alignment", "--stop optimal--");
             team.forEach(bioInformatician -> {
-                bioInformatician.getPersonalAlignment().writeAlignmentToFile("backup.txt", true, bioInformatician.getName(), "--stop " + bioInformatician.getName() + "--");
+                bioInformatician.writeAlignmentToFile("backup.txt", true, bioInformatician.getName(), "--stop " + bioInformatician.getName() + "--");
             });
             setLastBackup(LocalDateTime.now());
         } catch (IOException e) {
@@ -44,7 +44,7 @@ public class TechnicalSupport extends TeamMember {
     public void reinstateBackup(ArrayList<BioInformatician> team) {
         alignmentRepository.createAlignmentFromFile("backup.txt", "Optimal Alignment", "--stop optimal--");
         team.forEach(bioInformatician -> {
-            bioInformatician.getPersonalAlignment().createAlignmentFromFile("backup.txt", bioInformatician.getName(),
+            bioInformatician.createAlignmentFromFile("backup.txt", bioInformatician.getName(),
                     "--stop " + bioInformatician.getName() + "--");
         });
     }
