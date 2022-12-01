@@ -26,7 +26,7 @@ public class TechnicalSupport extends TeamMember {
      * Backs up all user alignments and the optimal alignment
      */
     public void backupRepository(ArrayList<BioInformatician> team) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("src/files/backup.txt"))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("src" + System.getProperty("file.separator") + "files" + System.getProperty("file.separator") + "backup.txt"))) {
             // only write away 1 of the optimal alignments because they are the same anyway
             alignmentRepository.writeAlignmentToFile("backup.txt", true, "Optimal Alignment", "--stop optimal--");
             team.forEach(bioInformatician -> {

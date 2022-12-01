@@ -18,10 +18,11 @@ public class StartUp {
         // STEP 0.: Declare needed variables
         Random rm = new Random();
         int index;
+        String separator = System.getProperty("file.separator");
 
         // Step 1.: Read in the properties
         Properties properties = new Properties();
-        try (InputStream inputStream = new FileInputStream("src/config.properties")) {
+        try (InputStream inputStream = new FileInputStream("src" + separator + "config.properties")) {
             properties.load(inputStream);
         } catch (FileNotFoundException e) {
             System.out.println("Properties file not found: " + e);
@@ -36,7 +37,7 @@ public class StartUp {
         StandardAlignment startingAlignment = new StandardAlignment();
         SNPAlignment startingSNPAlignment = new SNPAlignment();
         // STEP 3.: Read in the fasta file
-        try (BufferedReader reader = new BufferedReader(new FileReader("src/files/" + properties.getProperty("fastafilename")))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader("src" + separator + "files" + separator + properties.getProperty("fastafilename")))) {
             // STEP 4.: Create genome objects from the fasta file and add them to the alignment objects
             ArrayList<Genome> genomes = new ArrayList<>();
             // initial reading of the first id
@@ -79,7 +80,7 @@ public class StartUp {
         ArrayList<BioInformatician> team = new ArrayList<>();
         ArrayList<TeamLeader> leaders = new ArrayList<>();
         ArrayList<TechnicalSupport> supports = new ArrayList<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader("src/files/" + properties.getProperty("teamfilename")))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader("src" + separator + "files" + separator + properties.getProperty("teamfilename")))) {
             String line = reader.readLine();
             // STEP 8.: Team creation
             while (line != null) {
@@ -188,21 +189,13 @@ public class StartUp {
 
         System.out.println("\n================================================\n");
 
-        // STEP 16.: Write away best alignment to repository
+        // STEP 16.: Write away an alignment to repository
         // Here the same principle, multiple team leaders could be present, and we only want one
         TeamLeader leader = leaders.get(rm.nextInt(leaders.size()));
         System.out.println(leader.getName() + " starts managing the team");
-        StandardAlignment bestAlignment = startingAlignment;
-        System.out.println("Difference score of the best alignment:: " + leader.getOptimalDifferenceScore());
-        System.out.println("Calculating best alignment...");
-        for (BioInformatician bioInofrmatician : team) {
-            if (bestAlignment.calculateScore() > bioInofrmatician.getPersonalAlignment().calculateScore()) {
-                bestAlignment = bioInofrmatician.getPersonalAlignment();
-            }
-        }
-        System.out.println("The lowest difference score found is " + bestAlignment.calculateScore());
-        System.out.println("Writing best alignment to repository");
-        leader.copyAlignmentToOptimalAlignment(bestAlignment);
+        System.out.println("Difference score of the optimal alignment:: " + leader.getOptimalDifferenceScore());
+        System.out.println("Writing alignment of " + b.getName() + " to repository");
+        leader.copyAlignmentToOptimalAlignment(b.getPersonalAlignment());
         System.out.println("Difference score of the best alignment:: " + leader.getOptimalDifferenceScore());
 
         System.out.println("\n================================================\n");

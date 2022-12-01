@@ -146,7 +146,7 @@ public abstract class Alignment {
      * @param stop     stopping delimiter
      */
     public void writeAlignmentToFile(String fileName, boolean append, String start, String stop) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("src/files/" + fileName, append))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("src" + System.getProperty("file.separator") + "files" + System.getProperty("file.separator") + fileName, append))) {
             // indicate where this alignment starts
             writer.write(start);
             writer.write(System.lineSeparator());
@@ -175,7 +175,7 @@ public abstract class Alignment {
      * @param append   if the writer should append to the file or overwrite the file
      */
     public void writeDifferenceScoreToFile(String fileName, boolean append, String name) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("src/files/" + fileName, append))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("src" + System.getProperty("file.separator") + "files" + System.getProperty("file.separator") + fileName, append))) {
             writer.write(name + "\n");
             writer.write("Difference score: " + calculateScore() + "\n\n");
         } catch (IOException e) {
@@ -191,7 +191,7 @@ public abstract class Alignment {
      * @param stop     the stop delimiter
      */
     public void createAlignmentFromFile(String fileName, String start, String stop) {
-        try (BufferedReader reader = new BufferedReader(new FileReader("src/files/" + fileName))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader("src" + System.getProperty("file.separator") + "files" + System.getProperty("file.separator") + fileName))) {
             ArrayList<Genome> genomes = new ArrayList<>();
             String alignmentName = reader.readLine();
             while (!alignmentName.equals(start)) {
