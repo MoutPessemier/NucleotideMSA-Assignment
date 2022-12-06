@@ -232,4 +232,13 @@ public abstract class Alignment {
     public void setGenomes(ArrayList<Genome> genomes) {
         this.genomes = genomes;
     }
+
+    /**
+     * Gets the length of the genome sequence
+     *
+     * @return the length of the genome sequence
+     */
+    public int getSequenceLength() {
+        return genomes.get(0).getGenomeSequence().length();
+    }
 }

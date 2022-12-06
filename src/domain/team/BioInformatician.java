@@ -164,6 +164,15 @@ public class BioInformatician extends TeamMember {
     }
 
     /**
+     * Gets the length of the genome sequence
+     *
+     * @return the length of the genome sequence
+     */
+    public int getSequenceLength() {
+        return personalAlignment.getSequenceLength();
+    }
+
+    /**
      * A pleasing String representation of the class BioInformatician
      *
      * @return the String representation of BioInformatician
