@@ -23,21 +23,28 @@ public class StartUp {
 
         // Step 1.: Read in the properties
         Properties properties = new Properties();
+        // Open an input stream with a try with resources
         try (InputStream inputStream = new FileInputStream("src" + separator + "config.properties")) {
+            // Load the property file
             properties.load(inputStream);
         } catch (FileNotFoundException e) {
+            // Catch the exception, let the user know and end the program
             System.out.println("Properties file not found: " + e);
             System.out.println("Exiting program...");
             System.exit(1);
         } catch (IOException e) {
+            // Catch the exception, let the user know and end the program
             System.out.println("Something went wrong when reading the properties file: " + e);
             System.out.println("Exiting program...");
             System.exit(1);
         }
         // STEP 2.: Creating the starting alignments
+        // Create both alignments for the repostiory
         StandardAlignment startingAlignment = new StandardAlignment();
         SNPAlignment startingSNPAlignment = new SNPAlignment();
+
         // STEP 3.: Read in the fasta file
+        // Open a BufferedReader with a try with resources
         try (BufferedReader reader = new BufferedReader(new FileReader("src" + separator + "files" + separator + properties.getProperty("fastafilename")))) {
             // STEP 4.: Create genome objects from the fasta file and add them to the alignment objects
             ArrayList<Genome> genomes = new ArrayList<>();
@@ -59,10 +66,12 @@ public class StartUp {
             startingAlignment.setGenomes(genomes);
             startingSNPAlignment.setGenomes(genomes);
         } catch (FileNotFoundException e) {
+            // Catch the exception, let the user know and end the program
             System.out.println("Fasta file not found: " + e);
             System.out.println("Exiting program...");
             System.exit(1);
         } catch (IOException e) {
+            // Catch the exception, let the user know and end the program
             System.out.println("Something went wrong when reading the fasta file: " + e);
             System.out.println("Exiting program...");
             System.exit(1);
@@ -81,11 +90,13 @@ public class StartUp {
         ArrayList<BioInformatician> team = new ArrayList<>();
         ArrayList<TeamLeader> leaders = new ArrayList<>();
         ArrayList<TechnicalSupport> supports = new ArrayList<>();
+        // Open a BufferedReader with a try with resources
         try (BufferedReader reader = new BufferedReader(new FileReader("src" + separator + "files" + separator + properties.getProperty("teamfilename")))) {
             String line = reader.readLine();
             // STEP 8.: Team creation
             while (line != null) {
                 String[] lineComponents = line.split(" ");
+                // Switch on the type indicated by the first element of the line
                 switch (lineComponents[0]) {
                     case "TeamLead":
                         TeamLeader teamLeader = new TeamLeader(lineComponents[1], lineComponents[2], Integer.parseInt(lineComponents[3]), alignmentRepository);
@@ -107,14 +118,17 @@ public class StartUp {
                 line = reader.readLine();
             }
         } catch (FileNotFoundException e) {
+            // Catch the exception, let the user know and end the program
             System.out.println("Team file not found: " + e);
             System.out.println("Exiting program...");
             System.exit(1);
         } catch (IOException e) {
+            // Catch the exception, let the user know and end the program
             System.out.println("Something went wrong when reading the team file: " + e);
             System.out.println("Exiting program...");
             System.exit(1);
         }
+        // Set the team for the alignment repository
         alignmentRepository.setTeam(team);
 
         // STEP 9.: Display the whole team
@@ -126,7 +140,8 @@ public class StartUp {
 
         System.out.println("\n================================================\n");
 
-        // STEP 10.: To work with different sized teams and to not hard code which bio-informatician gets to do what, the 3 scenarios in which the bio-informatician works, he will be randomly selected
+        // STEP 10.: To work with different sized teams and to not hard code which bio-informatician gets to do what,
+        // the 3 scenarios in which the bio-informatician works, he will be randomly selected
         BioInformatician b = team.get(rm.nextInt(team.size()));
 
         // STEP 11.: A BioInformatician works on his alignment and calculates the score
@@ -174,12 +189,12 @@ public class StartUp {
         b = team.get(rm.nextInt(team.size()));
         System.out.println(b.getName() + " starts working on his alignment");
         System.out.println("The difference score before operations:: " + b.calculateScore() + "\n");
+        // I don't really see a way to not hard-code these identifiers
         System.out.println("Find the genome sequence with identifier: >1986.B.US.86.AD87");
         Genome foundGenome = b.findGenome(">1986.B.US.86.AD87");
         if (foundGenome != null) {
             System.out.println("The found genome: " + foundGenome.toString());
             System.out.println("For this found genome, replace all occurrences of the sequence 'AGT' with 'ATC");
-            // This is a bit useless but to show off what my program can do, I'll still use the method
             b.replaceSequenceForGenome(foundGenome.getIdentifier(), "AGT", "ATC");
         } else {
             System.out.println("No genome found with that identifier!");
@@ -221,7 +236,6 @@ public class StartUp {
         // STEP 19.: Updating each team member to match the best alignment
         System.out.println(leader.getName() + " updates the alignments for all his team members to match the optimal alignment");
         team.forEach(leader::overwriteAlignment);
-
         team.forEach(bioInformatician -> System.out.printf("%s has now a difference score of %d%n", bioInformatician.getName(), bioInformatician.calculateScore()));
 
         System.out.println("\n================================================\n");
