@@ -8,15 +8,12 @@ import repositories.AlignmentRepository;
 import java.util.ArrayList;
 
 public class TeamLeader extends TeamMember {
-    // A list of all bioinformaticians under the team leader
-    private ArrayList<BioInformatician> team;
     // The AlignmentRepository containing the optimal solution
     private AlignmentRepository alignmentRepository;
 
     public TeamLeader(String firstName, String lastName, int yearsOfExperience, AlignmentRepository alignmentRepository) {
         super(firstName, lastName, yearsOfExperience);
         setAlignmentRepository(alignmentRepository);
-        setTeam(new ArrayList<>());
     }
 
     /**
@@ -25,7 +22,7 @@ public class TeamLeader extends TeamMember {
      * @param member a bioinformatician
      */
     public void addTeamMember(BioInformatician member) {
-        team.add(member);
+        alignmentRepository.getTeam().add(member);
     }
 
     /**
@@ -34,7 +31,7 @@ public class TeamLeader extends TeamMember {
      * @param member a bioinformatician
      */
     public void removeMemberFromTeam(BioInformatician member) {
-        team.remove(member);
+        alignmentRepository.getTeam().remove(member);
     }
 
     /**
@@ -43,7 +40,7 @@ public class TeamLeader extends TeamMember {
     public void writeDataToFile() {
         // The names of the TeamLeader are needed, not those of the bioinformatician
         String fileName = this.firstName + this.lastName + ".alignment.txt";
-        team.forEach(bioInformatician -> {
+        alignmentRepository.getTeam().forEach(bioInformatician -> {
             bioInformatician.writeAlignmentToFile(fileName, true, bioInformatician.getName(), "");
         });
     }
@@ -54,7 +51,7 @@ public class TeamLeader extends TeamMember {
     public void writeReportToFile() {
         // The names of the TeamLeader are needed, not those of the bioinformatician
         String fileName = this.firstName + this.lastName + ".score.txt";
-        team.forEach(bioInformatician -> {
+        alignmentRepository.getTeam().forEach(bioInformatician -> {
             bioInformatician.writeDifferenceScoreToFile(fileName, true, bioInformatician.getName());
         });
     }
@@ -94,16 +91,6 @@ public class TeamLeader extends TeamMember {
      */
     public void setAlignmentRepository(AlignmentRepository alignmentRepository) {
         this.alignmentRepository = alignmentRepository;
-    }
-
-
-    /**
-     * Sets the team for the team leader
-     *
-     * @param team the team
-     */
-    public void setTeam(ArrayList<BioInformatician> team) {
-        this.team = team;
     }
 
     /**

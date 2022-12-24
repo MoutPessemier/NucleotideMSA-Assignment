@@ -100,7 +100,6 @@ public class StartUp {
                 switch (lineComponents[0]) {
                     case "TeamLead":
                         TeamLeader teamLeader = new TeamLeader(lineComponents[1], lineComponents[2], Integer.parseInt(lineComponents[3]), alignmentRepository);
-                        teamLeader.setTeam(team);
                         leaders.add(teamLeader);
                         break;
                     case "Bioinformatician":
@@ -205,7 +204,7 @@ public class StartUp {
             System.out.println("The removed genome has properties " + removedGenome.toString());
         }
         System.out.println("Adding a new genome");
-        b.addGenome(">1993.C.IN.93.93IN102", Utils.generateSequence(b.getSequenceLength()));
+        b.addGenome(Utils.generateIdentifier(), Utils.generateSequence(b.getSequenceLength()));
         System.out.println("\nDifference score after these operations:: " + b.calculateScore());
 
         System.out.println("\n================================================\n");

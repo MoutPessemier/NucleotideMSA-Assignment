@@ -102,4 +102,13 @@ public class AlignmentRepository {
     public void setTeam(ArrayList<BioInformatician> team) {
         this.team = team;
     }
+
+    /**
+     * Gets the team
+     *
+     * @return the team of bioinformaticians
+     */
+    public ArrayList<BioInformatician> getTeam() {
+        return team;
+    }
 }
