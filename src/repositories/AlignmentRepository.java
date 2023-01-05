@@ -95,6 +95,15 @@ public class AlignmentRepository {
     }
 
     /**
+     * Gets the team
+     *
+     * @return the team of bioinformaticians
+     */
+    public ArrayList<BioInformatician> getTeam() {
+        return team;
+    }
+
+    /**
      * Sets the team
      *
      * @param team the team of BioInformaticians
@@ -104,11 +113,20 @@ public class AlignmentRepository {
     }
 
     /**
-     * Gets the team
+     * Adds a bioinformatician to the team
      *
-     * @return the team of bioinformaticians
+     * @param member a bioinformatician
      */
-    public ArrayList<BioInformatician> getTeam() {
-        return team;
+    public void addTeamMember(BioInformatician member) {
+        team.add(member);
+    }
+
+    /**
+     * Removes a bioinformatician from the team
+     *
+     * @param member a bioinformatician
+     */
+    public void removeTeamMember(BioInformatician member) {
+        team.remove(member);
     }
 }

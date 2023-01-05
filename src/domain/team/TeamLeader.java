@@ -22,7 +22,7 @@ public class TeamLeader extends TeamMember {
      * @param member a bioinformatician
      */
     public void addTeamMember(BioInformatician member) {
-        alignmentRepository.getTeam().add(member);
+        alignmentRepository.addTeamMember(member);
     }
 
     /**
@@ -31,7 +31,7 @@ public class TeamLeader extends TeamMember {
      * @param member a bioinformatician
      */
     public void removeMemberFromTeam(BioInformatician member) {
-        alignmentRepository.getTeam().remove(member);
+        alignmentRepository.removeTeamMember(member);
     }
 
     /**
